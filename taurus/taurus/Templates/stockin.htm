@@ -1,0 +1,68 @@
+﻿
+<h1>Entradas</h1>
+
+<div class="tblForm" ng-init="init();">
+    <table class="table-form">
+        <tr>
+            <td>Proveedor:</td>
+            <td>
+                <angucomplete id="proveedores" placeholder="Buscar Proveedores" pause="300" selectedobject="proveedorSelected" titlefield="Description,RFC" datafield="jData" 
+                descriptionfield="RFC" minlength="3" url="/api/proveedor?search=" inputclass="form-control form-control-small" matchclass="highlight" selectedscope="stock.Proveedor"></angucomplete> 
+            </td>
+            <td></td>
+
+            <td>Factura:</td>
+            <td><input type="text" class="form-control" name="factura" placeholder="Factura" ng-model="stock.Factura"  /></td>
+            <td></td>
+
+            <td>Fecha:</td>
+            <td><input type="text" class="form-control" ng-model="stock.CreateDate" name="date" placeholder="Fecha" bs-datepicker></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<div class="div-separate"></div>
+<div>
+    <button type="button" class="btn btn-primary" data-animation="am-fade-and-scale" data-placement="center" data-template="/templates/addItemStock.htm" bs-modal="modal">Agregar Articulo</button>
+    <div ng-show="stock.Items.length>0">
+        <table class="tbl-form" >
+            <thead>
+                <tr>
+                    <td>Articulo</td>
+                    <td>Descripcion</td>
+                    <td>Cantidad</td>
+                    <td>Precio Uni</td>
+                    <td>Importe</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="animate" ng-repeat="item in stock.Items" >
+                    <td>{{ item.Articulo.Id }}</td>
+                    <td>{{ item.Articulo.Description }}</td> 
+                    <td>{{ item.Cantidad }}</td> 
+                    <td>{{ item.Unitario | currency }}</td> 
+                    <td>{{ (item.Cantidad * item.Unitario) | currency }}</td>
+                    <td>
+                        <button type="submit" class="tbl-button edit" ng-click="editItem(item, $index)">Edit</button>
+                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><td colspan="4">Total: {{ stock.Items.length }}</td><td colspan="2"><label class="label-Totals">Total: {{ totalItems() | currency }} </label></td></tr>
+            </tfoot>
+        </table>
+        
+        <div class="div-separate">
+            <button type="button" class="btn btn-success" ng-show="stock.Id <= 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock()">Agregar Entrada</button>
+            <button type="button" class="btn btn-success" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="updateStock()">Actualizar Entrada</button>
+            <button type="button" class="btn btn-default" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="cancelar()">Cancelar</button>
+        </div>
+
+        <div class="div-separate">
+            <div class="warning error">{{ errorForm }}</div>
+        </div>
+    </div>
+</div>
+

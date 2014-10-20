@@ -1,0 +1,9 @@
+﻿
+<script src="../../Angular/stock.js" type="text/javascript"></script>
+<script src="../../Angular/menu.js" type="text/javascript"></script>
+
+<div class='menu' id='menu' ng-controller="menuController" ng-init='init()'>
+    <ul class='menu container'>
+        <menu-item ng-repeat="action in actions | orderBy: 'Sorted'" mitem="action"></menu-item>
+    </ul>
+</div>

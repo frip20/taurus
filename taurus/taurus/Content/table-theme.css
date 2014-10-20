@@ -1,0 +1,14 @@
+﻿.tbl-form{margin-top:15px;width:100%;border:1px solid #ccc;}
+
+.tbl-form THEAD{ height:25px; background-color:#356AA0; color:#F9F7ED; }
+
+.tbl-form THEAD TD{height:25px;padding:1px 5px 1px 10px;}
+
+.tbl-form TBODY TR:hover{background-color:#C3D9FF;}
+.tbl-form TBODY TD{border-top:1px solid #ccc;}
+
+.tbl-form TFOOT{ background-color:#f5f5f5; color:#36393D; }
+
+.tbl-form TFOOT TD{height:25px;padding:1px 5px 1px 10px;border-top:1px solid #ccc;}
+
+.edit-button{background-image:url('../Images/edit.png');}
