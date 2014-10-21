@@ -137,6 +137,7 @@
     <Compile Include="API\SistemaController.cs" />
     <Compile Include="API\StockController.cs" />
     <Compile Include="API\StockMovController.cs" />
+    <Compile Include="API\UsersController.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -189,11 +190,13 @@
     <Content Include="Angular\login.js" />
     <Content Include="Angular\stock.js" />
     <Content Include="Angular\taurusApp.js" />
+    <Content Include="Angular\users.js" />
     <Content Include="Content\angucomplete.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\menu-theme.css" />
     <Content Include="Content\table-theme.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -231,6 +234,9 @@
     <Content Include="Images\header_logo.png" />
     <Content Include="Images\menu_grid.png" />
     <Content Include="Images\money.png" />
+    <Content Include="Images\stockin.png" />
+    <Content Include="Images\stockout.png" />
+    <Content Include="Images\users.png" />
     <Content Include="README.jQuery.vsdoc.txt" />
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular-strap.min.js" />
@@ -247,6 +253,7 @@
     <Content Include="Templates\stockin.htm" />
     <Content Include="Templates\stockmovs.htm" />
     <Content Include="Templates\stockout.htm" />
+    <Content Include="Templates\users.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

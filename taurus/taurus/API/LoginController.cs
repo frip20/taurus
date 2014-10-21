@@ -39,6 +39,10 @@ namespace taurus.API
                 int uid = _login.validateUser(user.userName, user.Password);
 
                 user = _login.searchObjectById(uid);
+                
+                //Save last access date
+                user.lastAccessDate = DateTime.Now;
+                user.SaveAndFlush();
 
                 HttpContext.Current.Session["uid"] = uid;
                 HttpContext.Current.Session["user"] = user;

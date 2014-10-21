@@ -1,0 +1,29 @@
+﻿<h1>Usuarios</h1>
+
+<div ng-init="init()">
+    <input type=button class="btn btn-default" value="Agregar Usuario" />
+    <table class="tbl-form"  >
+            <thead>
+                <tr>
+                    <td>Nombre</td>
+                    <td>Role</td>
+                    <td>Ultimo acceso</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="animate" ng-repeat="item in users | orderBy : userName" >
+                    <td>{{ item.userName }}</td>
+                    <td>{{ item.userRol.Description }}</td> 
+                    <td>{{ item.lastAccessDate | date:'MM/dd/yyyy HH:mm' }}</td> 
+                    <td>
+                        <button type="submit" class="tbl-button edit" ng-click="editStock(item.Id)">Edit</button>
+                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><td colspan="4">Total: {{ users.length }}</td></tr>
+            </tfoot>
+        </table>
+</div>

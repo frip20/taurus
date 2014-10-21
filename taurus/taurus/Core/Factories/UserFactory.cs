@@ -60,5 +60,9 @@ namespace taurus.Core.Factories
                 throw new UserRolException(MessageService.INVALID_USERROLE);
             }
         }
+
+        public IList<User> getAllUsers() {
+            return User.FindAll();
+        }
     }
 }

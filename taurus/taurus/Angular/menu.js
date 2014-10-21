@@ -59,6 +59,10 @@ app.config(['$routeProvider', function ($routeProvider) {
             templateUrl: 'templates/stockmovs.htm',
             controller: 'stockMovController'
         })
+        .when('/adminuser', {
+            templateUrl: 'templates/users.htm',
+            controller: 'usersController'
+        })
         .otherwise({
             redirectTo: '/home'
         });

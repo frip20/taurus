@@ -12,11 +12,15 @@ namespace taurus.Core.Entities
     {
         [Property]
         public string userName { get; set; }
+
         [Property]
         public string Password { get; set; }
 
         [BelongsTo("roleid")]
         public Rol userRol { get; set; }
+
+        [Property]
+        public DateTime lastAccessDate { get; set; }
             
         
     }

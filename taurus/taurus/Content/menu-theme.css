@@ -1,0 +1,16 @@
+﻿.menu{}
+.menu ul{list-style:none;margin:0; padding:0;}
+.menu li{display:list-item;}
+.menu li hover{}
+.menu li a{color: #3b73af;display: block;padding: 7px 10px;word-wrap: break-word;font-size:14px;text-decoration:none;;width:220px}
+.menu li a:hover{background-color:#e6e6e6;}
+.menu .header{padding:10px; border-bottom:solid 1px #ccc;  border-top:solid 1px #ccc; width:220px}
+.menu .header span{font-weight:bold; font-size:13px; color:#707070}
+
+.menu .icon{background-repeat: no-repeat; background-position: 0 0; border: 0; width:20px; height:20px; display: inline-block; margin: 0px 5px 0px 0px; padding: 0; text-align: left;  text-indent: -999em; vertical-align: text-bottom;}
+
+.stock{background-image:url('../Images/car.png');}
+.stockin{background-image:url('../Images/stockin.png');}
+.stockout{background-image:url('../Images/stockout.png');}
+
+.user{background-image:url('../Images/users.png');}
