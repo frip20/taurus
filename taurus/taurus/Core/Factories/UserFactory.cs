@@ -64,5 +64,12 @@ namespace taurus.Core.Factories
         public IList<User> getAllUsers() {
             return User.FindAll();
         }
+
+
+        public bool validateUserName(string userName)
+        {
+            List<User> users = User.FindAllByProperty("userName", userName).ToList<User>();
+            return (users.Count <= 0);
+        }
     }
 }

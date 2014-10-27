@@ -12,6 +12,8 @@ namespace taurus.Core.Interfaces
 
         int validateUser(string userName, string pwd);
 
+        bool validateUserName(string userName);
+
         IList<taurus.Core.Entities.Action> actionsByUser(int userId);
 
         IList<User> getAllUsers();

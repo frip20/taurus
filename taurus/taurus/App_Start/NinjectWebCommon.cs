@@ -63,6 +63,12 @@ namespace ninject.WebUI
             this.Bind<IArticulo>().To<ArticuloFactory>();
             this.Bind<ISistema>().To<SistemaFactory>();
             this.Bind<IStock>().To<StockFactory>();
+            this.Bind<IRolFactory>().To<RolFactory>();
+            this.Bind<IDepartamento>().To<DepartmentFactory>();
+            this.Bind<IUso>().To<UsoFactory>();
+            this.Bind<IEmpleado>().To<EmpleadoFactory>();
+            this.Bind<IConcepto>().To<ConceptoFactory>();
+            this.Bind<IMaquina>().To<MaquinaFactory>();
         }
     }
 

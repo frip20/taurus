@@ -1,4 +1,67 @@
-﻿app.controller('stockController', function ($scope, $modal, $http, $q, $routeParams, $location) {
+﻿app.factory('stockService', function ($http, $q) {
+    var _factory = {};
+
+    _factory.getStockById = function (id) {
+        var deferred = $q.defer();
+        $http.get('api/stock?stockId=' + id).success(function (apiData) {
+            if (apiData.Status == 'OK') {
+                deferred.resolve(apiData.jData);
+            } else {
+                deferred.reject(apiData.jData)
+            }
+        }).error(function () {
+            deferred.reject(0);
+        });
+        return deferred.promise;
+    };
+
+    _factory.insertStock = function (stock, action) {
+        var deferred = $q.defer();
+        $http.post('api/stock', { Stock: stock, Action: action }).success(function (apiData) {
+            if (apiData.Status == 'OK') {
+                deferred.resolve(apiData.jData);
+            } else {
+                deferred.reject(apiData.jData)
+            }
+        }).error(function () {
+            deferred.reject(0);
+        });
+        return deferred.promise;
+    };
+
+    _factory.deleteStock = function (stockId) {
+        var deferred = $q.defer();
+        console.log(stockId);
+        $http.post('api/stock', { Stock: { Id: stockId }, Action: 2 }).success(function (apiData) {
+            if (apiData.Status == 'OK') {
+                deferred.resolve(apiData.jData);
+            } else {
+                deferred.reject(apiData.jData)
+            }
+        }).error(function () {
+            deferred.reject(0);
+        });
+        return deferred.promise;
+    };
+
+    _factory.getMovimientos = function (criteria) {
+        var deferred = $q.defer();
+        $http.post('api/stockmov', criteria).success(function (apiData) {
+            if (apiData.Status == 'OK') {
+                deferred.resolve(apiData.jData);
+            } else {
+                deferred.reject(apiData.jData)
+            }
+        }).error(function () {
+            deferred.reject(0);
+        });
+        return deferred.promise;
+    };
+
+    return _factory;
+});
+
+app.controller('stockController', function ($scope, $modal, $http, $q, $routeParams, $location, stockService) {
     $scope.stock = { Id: 0, Items: [], CreateDate: new Date() };
     $scope.newItem = {};
     $scope.indexEdit = -1;
@@ -6,7 +69,8 @@
 
     $scope.init = function () {
         if ($routeParams.stock_id != null) {
-            $scope.getStockById($routeParams.stock_id)
+            $scope.stock.Id = $routeParams.stock_id;
+            stockService.getStockById($routeParams.stock_id)
                 .then(function (data) {
                     $scope.proveedorSelected = { 'title': data.Proveedor.Description, 'description': data.Proveedor.RFC, 'image': '', 'originalObject': data.Proveedor };
                     $scope.stock = data;
@@ -16,31 +80,13 @@
         }
     }
 
-    $scope.getStockById = function (id) {
-        var deferred = $q.defer();
-        $scope.stock.Id = id;
-        //$http.get('api/stockmov', { params: { criteria: $scope.criteria} }).success(function (apiData) {
-        $http.get('api/stock?stockId=' + id).success(function (apiData) {
-            if (apiData.Status == 'OK') {
-                deferred.resolve(apiData.jData);
-            } else {
-                deferred.reject(0)
-            }
-        }).error(function () {
-            deferred.reject(0);
-        });
-        return deferred.promise;
-    };
-
     $scope.addItem = function () {
         if ($scope.validForm()) {
-
             if ($scope.indexEdit >= 0) {
                 $scope.stock.Items[$scope.indexEdit] = $scope.newItem;
             } else {
                 $scope.stock.Items.push($scope.newItem);
             }
-
             $scope.clearForm();
 
             //close popup
@@ -52,7 +98,7 @@
         $scope.indexEdit = index;
         angular.copy(item, $scope.newItem);
         $scope.articuloSelected = { 'title': item.Articulo.Description, 'description': item.Articulo.Parte, 'image': '', 'originalObject': item.Articulo };
-        $scope.sisSelected = { title: item.Sistema.Description, description: item.Sistema.Clave, image: '', originalObject: item.Sistema };
+        //$scope.sisSelected = { title: item.Sistema.Description, description: item.Sistema.Clave, image: '', originalObject: item.Sistema };
         var myOtherModal = $modal({ scope: $scope, template: '/templates/addItemStock.htm', show: true });
     };
 
@@ -76,11 +122,6 @@
             return false;
         }
 
-        if ($scope.newItem.Sistema == null) {
-            $scope.errorForm = 'El campo sistema es requerido';
-            return false;
-        }
-
         if ($scope.newItem.Unitario == null) {
             $scope.errorForm = 'El campo precio unitario es requerido';
             return false;
@@ -92,7 +133,6 @@
         $scope.indexEdit = -1;
         $scope.newItem = {};
         $scope.articuloSelected = {};
-        $scope.sisSelected = {}
         $scope.errorForm = '';
     };
 
@@ -125,21 +165,17 @@
         return true;
     };
 
-    $scope.addStock = function () {
+    $scope.addStock = function (action) {
         if ($scope.validStock()) {
             $scope.stock.Type = 1; //Entrada
 
-            var deferred = $q.defer();
-            $http.post('api/stock', $scope.stock).success(function (apiData) {
-                if (apiData.Status == 'OK') {
-                    deferred.resolve(apiData.jData);
-                } else {
-                    deferred.reject(0)
-                }
-            }).error(function () {
-                deferred.reject(0);
-            });
-            return deferred.promise;
+            stockService.insertStock($scope.stock, action)//1:ADD  3:UPDATE
+                .then(function (data) {
+                    $location.path('/stockmovs');
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
+            
         }
     };
 
@@ -147,15 +183,28 @@
         $location.path('/stockmovs');
     };
 
+    $scope.updateStock = function () {
+        if ($scope.validStock()) {
+            $scope.stock.Type = 1; //Entrada
+
+            stockService.insertStock($scope.stock)
+                .then(function (data) {
+                    $location.path('/stockmovs');
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
+
+        }
+    };
 
 });
 
-app.controller('stockMovController', function ($scope, $modal, $http, $q, $location) {
+app.controller('stockMovController', function ($scope, $modal, $http, $q, $location, $window, stockService) {
     $scope.movimientos = [];
     $scope.criteria = {};
 
     $scope.init = function () {
-        $scope.getMovimientos()
+        stockService.getMovimientos($scope.criteria)
             .then(function (data) {
                 $scope.movimientos = data;
             }, function (data) {
@@ -166,28 +215,13 @@ app.controller('stockMovController', function ($scope, $modal, $http, $q, $locat
 
     $scope.searchMovimientos = function () {
         if ($scope.validSearch()) {
-            $scope.getMovimientos()
+            stockService.getMovimientos($scope.criteria)
                 .then(function (data) {
                     $scope.movimientos = data;
                 }, function (data) {
                     console.log('error!!');
                 });
         }
-    };
-
-    $scope.getMovimientos = function () {
-        var deferred = $q.defer();
-        //$http.get('api/stockmov', { params: { criteria: $scope.criteria} }).success(function (apiData) {
-        $http.post('api/stockmov', $scope.criteria).success(function (apiData) {
-            if (apiData.Status == 'OK') {
-                deferred.resolve(apiData.jData);
-            } else {
-                deferred.reject(0)
-            }
-        }).error(function () {
-            deferred.reject(0);
-        });
-        return deferred.promise;
     };
 
     $scope.validSearch = function () {
@@ -205,8 +239,168 @@ app.controller('stockMovController', function ($scope, $modal, $http, $q, $locat
         return true;
     };
 
-    $scope.editStock = function (id) {
-        $location.path("/stockin/" + id);
+    $scope.editStock = function (id, type) {
+        if (type == 1)
+            $location.path("/stockin/" + id);
+        else
+            $location.path("/stockout/" + id);
     };
 
+    $scope.deleteItem = function (id, index) {
+        console.log(id);
+        stockService.deleteStock(id)
+            .then(function (data) {
+                $window.alert('El registro a sido eliminado.');
+                $scope.movimientos.splice(index, 1);
+            }, function (data) {
+                $scope.errorForm = data;
+            });
+    };
+
+});
+
+
+
+
+app.controller('stockOutController', function ($scope, $modal, $http, $q, $routeParams, $location, $window, stockService, departmentService) {
+    $scope.stock = { Id: 0, Items: [], CreateDate: new Date(), Uso: null, Type: 2 };
+    $scope.departments = [];
+    $scope.newItem = {};
+    $scope.indexEdit = -1;
+    $scope.errorForm = '';
+
+    $scope.init = function () {
+        departmentService.getAllDepartments()
+            .then(function (data) {
+                $scope.departments = data;
+            }, function (data) {
+                $scope.errorForm = data;
+            });
+
+        if ($routeParams.stock_id != null) {
+            $scope.stock.Id = $routeParams.stock_id;
+            stockService.getStockById($routeParams.stock_id)
+                .then(function (data) {
+                    //$scope.proveedorSelected = { 'title': data.Proveedor.Description, 'description': data.Proveedor.RFC, 'image': '', 'originalObject': data.Proveedor };
+                    $scope.stock = data;
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
+        }
+    };
+
+    $scope.closePopup = function () {
+        $scope.clearForm();
+        this.$hide();
+    };
+
+    $scope.clearForm = function () {
+        $scope.indexEdit = -1;
+        $scope.newItem = {};
+        $scope.articuloSelected = {};
+        $scope.errorForm = '';
+    };
+
+    $scope.addItem = function () {
+        if ($scope.validForm()) {
+            if ($scope.indexEdit >= 0) {
+                $scope.stock.Items[$scope.indexEdit] = $scope.newItem;
+            } else {
+                $scope.stock.Items.push($scope.newItem);
+            }
+            $scope.clearForm();
+
+            //close popup
+            this.$hide();
+        }
+    };
+
+    $scope.validForm = function () {
+        if ($scope.newItem.Cantidad == null) {
+            $scope.errorForm = 'El campo cantidad es requerido';
+            return false;
+        }
+
+        if ($scope.newItem.Articulo == null) {
+            $scope.errorForm = 'El campo Articulo es requerido';
+            return false;
+        }
+
+        if ($scope.newItem.Sistema == null) {
+            $scope.errorForm = 'El sistema es requerido';
+            return false;
+        }
+        return true;
+    };
+
+    $scope.validStock = function () {
+        if ($scope.stock.Departamento == null) {
+            $scope.errorForm = 'El departamento es requerido';
+            return false;
+        }
+
+        if ($scope.stock.Uso == null) {
+            var _uso = $window.document.getElementById('uso_value').value.trim();
+            if (_uso == null || _uso === '') {
+                $scope.errorForm = 'El campo para uso en es requerido';
+                return false;
+            }
+            else {
+                $scope.stock.Uso = { Id: 0, Description: _uso };
+            }
+        }
+
+        if ($scope.stock.Responsable == null) {
+            $scope.errorForm = 'El responsable es requerido';
+            return false;
+        }
+
+        if ($scope.stock.CreateDate == null) {
+            $scope.errorForm = 'El campo fecha es requerido';
+            return false;
+        }
+
+        return true;
+    };
+
+    $scope.addStock = function (action) {
+        if ($scope.validStock()) {
+            stockService.insertStock($scope.stock, action)//1:ADD  3:UPDATE
+                .then(function (data) {
+                    $location.path('/stockmovs');
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
+
+        }
+    };
+
+
+    $scope.cancelar = function () {
+        $location.path('/stockmovs');
+    };
+
+    $scope.updateStock = function () {
+        if ($scope.validStock()) {
+            stockService.insertStock($scope.stock)
+                .then(function (data) {
+                    $location.path('/stockmovs');
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
+
+        }
+    };
+
+    $scope.deleteItem = function (item, index) {
+        $scope.stock.Items.splice(index, 1);
+    };
+
+    $scope.editItem = function (item, index) {
+        $scope.indexEdit = index;
+        angular.copy(item, $scope.newItem);
+        $scope.articuloSelected = { 'title': item.Articulo.Description, 'description': item.Articulo.Parte, 'image': '', 'originalObject': item.Articulo };
+        $scope.sisSelected = { title: item.Sistema.Description, description: item.Sistema.Clave, image: '', originalObject: item.Sistema };
+        var myOtherModal = $modal({ scope: $scope, template: '/templates/addItemStockOut.htm', show: true });
+    };
 });

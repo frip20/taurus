@@ -29,14 +29,14 @@
 </div>
 
 <div class="div-separate"></div>
-
+<div class="warning error">{{ errorForm }}</div>
 <div ng-init="init()">
     <table class="tbl-form"  >
             <thead>
                 <tr>
                     <td>No.</td>
                     <td>Tipo</td>
-                    <td>Proveedor</td>
+                    <td>Proveedor / Responsable</td>
                     <td>Factura</td>
                     <td>Fecha</td>
                     <td>Articulos</td>
@@ -47,13 +47,13 @@
                 <tr class="animate" ng-repeat="item in movimientos" >
                     <td>{{ item.Id }}</td>
                     <td>{{ (item.Type == 1 ? 'Entrada' : 'Salida') }}</td> 
-                    <td>{{ item.Proveedor.Description }}</td> 
+                    <td>{{ (item.Type == 1 ? item.Proveedor.Description : item.Responsable.Description) }}</td> 
                     <td>{{ item.Factura }}</td> 
                     <td>{{ item.CreateDate | date:'MM/dd/yyyy' }}</td> 
                     <td>{{ item.Items.length }}</td>
                     <td>
-                        <button type="submit" class="tbl-button edit" ng-click="editStock(item.Id)">Edit</button>
-                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
+                        <button type="submit" class="tbl-button edit" ng-click="editStock(item.Id, item.Type)">Edit</button>
+                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item.Id, $index)">Delete</button>
                     </td>
                 </tr>
             </tbody>

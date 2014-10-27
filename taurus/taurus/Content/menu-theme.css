@@ -9,8 +9,10 @@
 
 .menu .icon{background-repeat: no-repeat; background-position: 0 0; border: 0; width:20px; height:20px; display: inline-block; margin: 0px 5px 0px 0px; padding: 0; text-align: left;  text-indent: -999em; vertical-align: text-bottom;}
 
-.stock{background-image:url('../Images/car.png');}
+.stock{background-image:url('../Images/stock.png');}
 .stockin{background-image:url('../Images/stockin.png');}
 .stockout{background-image:url('../Images/stockout.png');}
 
 .user{background-image:url('../Images/users.png');}
+
+.bitacora{background-image:url('../Images/bitacora.png');}

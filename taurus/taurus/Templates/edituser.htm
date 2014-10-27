@@ -1,0 +1,36 @@
+﻿<h1>Usuarios</h1>
+
+<div ng-init="init()">
+    <div>
+        <table class="table-form">
+        <tr>
+            <td>Nombre:</td>
+            <td><input type="text" class="form-control" placeholder="Nombre de usuario" ng-model="user.userName" name="userName" ng-disabled="user.Id>0" required /></td><td>*</td>
+        </tr>
+
+        <tr>
+            <td>Contraseña:</td>
+            <td><input type=password class="form-control" placeholder="Contraseña" ng-model="user.Password" name="Password" required /></td><td>*</td>
+        </tr>
+
+        <tr>
+            <td>Rol:</td>
+            <td>
+                <select ng-model="user.userRol.Id" class="form-control" placeholder="Rol" ng-options="item.Id as item.Description for item in roles"></select>
+            </td>
+            <td>*</td>
+        </tr>
+
+        </table>
+
+        <div class="warning message">* Campos requeridos</div>
+        <div class="warning error">{{ errorForm }}</div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" ng-click="addUser()">Agregar</button>
+            <button type="button" class="btn btn-default" ng-click="Cancel()">Cancelar</button>
+        </div>
+    </div>
+
+    
+</div>

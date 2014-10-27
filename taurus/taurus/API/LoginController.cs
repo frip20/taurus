@@ -10,6 +10,7 @@ using taurus.Core.Entities;
 using taurus.Core.Interfaces;
 using taurus.Core.Exceptions;
 using taurus.Core.Web;
+using taurus.Core.Services;
 
 namespace taurus.API
 {
@@ -39,7 +40,10 @@ namespace taurus.API
                 int uid = _login.validateUser(user.userName, user.Password);
 
                 user = _login.searchObjectById(uid);
-                
+
+                if (!user.Enable)
+                    throw new InvalidUserException(string.Format(MessageService.USER_BLOCKED, user.userName));
+
                 //Save last access date
                 user.lastAccessDate = DateTime.Now;
                 user.SaveAndFlush();

@@ -8,6 +8,7 @@ using taurus.Core.Dbutil;
 using NHibernate.Criterion;
 using taurus.Core.Services;
 using taurus.Core.Constants;
+using taurus.Core.Exceptions;
 
 namespace taurus.Core.Factories
 {
@@ -25,6 +26,32 @@ namespace taurus.Core.Factories
                         item.Enable = true;
                         item.Stock = stock;
                         item.SaveAndFlush();
+                    }
+                }
+            }
+        }
+
+        public void updateStock(Stock stock) {
+            if (stock != null)
+            {
+                stock.Enable = true;
+                stock.UpdateAndFlush();
+
+                if (stock.Items != null && stock.Items.Count > 0)
+                {
+                    foreach (StockItem item in stock.Items)
+                    {
+                        if (item.Id > 0) {
+                            item.Enable = true;
+                            item.Stock = stock;
+                            item.UpdateAndFlush();
+                        }
+                        else
+                        {
+                            item.Enable = true;
+                            item.Stock = stock;
+                            item.SaveAndFlush();
+                        }
                     }
                 }
             }
@@ -58,6 +85,26 @@ namespace taurus.Core.Factories
         public Stock searchObjectById(int id)
         {
             return Stock.Find(id);
+        }
+
+
+        public void deleteStock(Stock stock)
+        {
+            try
+            {
+                stock = Stock.Find(stock.Id);
+                foreach (StockItem item in stock.Items)
+                {
+                    item.Enable = false;
+                    item.SaveAndFlush();
+                }
+                stock.Enable=false;
+                stock.SaveAndFlush();
+            }
+            catch (Exception ex) {
+                throw new CastleActivityException(string.Format(MessageService.CASTLE_DELETE_ERROR, "deleteStock"), ex);
+            }
+
         }
     }
 }

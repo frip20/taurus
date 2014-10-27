@@ -34,14 +34,14 @@
             $scope.searchStr = null;
 
             $scope.$watch('selectedScope', function (newValue, oldValue) {
-                if(newValue != null)
+                if (newValue != null)
                     $scope.searchStr = newValue.Description;
             });
 
             if ($scope.selectedScope == null || $scope.selectedScope === 'undefined') {
                 $scope.searchStr = null;
             } else {
-                $scope.searchStr = $scope.selectedObject.title;
+                $scope.searchStr = ($scope.selectedObject == null) ? '' : $scope.selectedObject.title;
             }
 
             if ($scope.minLengthUser && $scope.minLengthUser != "") {

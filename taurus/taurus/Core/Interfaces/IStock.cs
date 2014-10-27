@@ -11,6 +11,10 @@ namespace taurus.Core.Interfaces
     {
         void addStock(Stock stock);
 
+        void updateStock(Stock stock);
+
+        void deleteStock(Stock stock);
+
         IEnumerable<Stock> getStockMovs(StockMovCriteria criteria);
     }
 }

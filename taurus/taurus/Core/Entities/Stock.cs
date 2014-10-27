@@ -49,7 +49,17 @@ namespace taurus.Core.Entities
         [Property]
         public DateTime CreateDate { get; set; }
 
-        [HasMany(typeof(StockItem), Table = "StockItems", ColumnKey = "stockid", Inverse = false, Cascade = ManyRelationCascadeEnum.AllDeleteOrphan), ScriptIgnore]
+        [BelongsTo("departamentoid")]
+        public Departamento Departamento { get; set; }
+
+        [BelongsTo("uso")]
+        public Uso Uso { get; set; }
+
+        [BelongsTo("responsable")]
+        public Empleado Responsable { get; set; }
+
+
+        [HasMany(typeof(StockItem), Table = "StockItems", ColumnKey = "stockid", Inverse = false, Cascade = ManyRelationCascadeEnum.AllDeleteOrphan, Where="Enable=1"), ScriptIgnore]
         public IList<StockItem> Items { get; set; }
 
     }

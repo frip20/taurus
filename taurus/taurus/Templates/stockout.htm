@@ -3,19 +3,23 @@
 <div class="tblForm" ng-init="init();">
     <table class="table-form">
         <tr>
+            <td>Departamento:</td>
+            <td><select ng-model="stock.Departamento.Id" class="form-control" placeholder="Departamento" ng-options="item.Id as item.Description for item in departments"></select></td>
+            <td></td>
+
             <td>Para usarse en:</td>
             <td>
-                <angucomplete id="proveedores" placeholder="Buscar Proveedores" pause="300" selectedobject="proveedorSelected" titlefield="Description,RFC" datafield="jData" 
-                descriptionfield="RFC" minlength="3" url="/api/proveedor?search=" inputclass="form-control form-control-small" matchclass="highlight" selectedscope="stock.Proveedor"></angucomplete> 
+                <angucomplete id="uso" placeholder="Para uso en" pause="300" selectedobject="usoSelected" titlefield="Description" datafield="jData" 
+                descriptionfield="" minlength="3" url="/api/usos?search=" inputclass="form-control form-control-small" matchclass="highlight" selectedscope="stock.Uso"></angucomplete> 
             </td>
             <td></td>
-
-            <td>Departamento:</td>
-            <td><input type="text" class="form-control" name="factura" placeholder="Factura" ng-model="stock.Factura"  /></td>
-            <td></td>
-
+         </tr>               
+         <tr>
             <td>Responsable:</td>
-            <td><input type="text" class="form-control" name="factura" placeholder="Factura" ng-model="stock.Factura"  /></td>
+            <td>
+                <angucomplete id="responsable" placeholder="Responsable" pause="300" selectedobject="responsableSelected" titlefield="Description" datafield="jData" 
+                minlength="3" url="/api/empleados?search=" inputclass="form-control form-control-small" matchclass="highlight" selectedscope="stock.Responsable"></angucomplete>
+            </td>
             <td></td>
 
             <td>Fecha:</td>
@@ -26,7 +30,7 @@
 </div>
 <div class="div-separate"></div>
 <div>
-    <button type="button" class="btn btn-primary" data-animation="am-fade-and-scale" data-placement="center" data-template="/templates/addItemStock.htm" bs-modal="modal">Agregar Articulo</button>
+    <button type="button" class="btn btn-primary" data-animation="am-fade-and-scale" data-placement="center" data-template="/templates/addItemStockOut.htm" bs-modal="modal">Agregar Articulo</button>
     <div ng-show="stock.Items.length>0">
         <table class="tbl-form" >
             <thead>
@@ -34,8 +38,7 @@
                     <td>Articulo</td>
                     <td>Descripcion</td>
                     <td>Cantidad</td>
-                    <td>Precio Uni</td>
-                    <td>Importe</td>
+                    <td>Sistema</td>
                     <td></td>
                 </tr>
             </thead>
@@ -44,8 +47,7 @@
                     <td>{{ item.Articulo.Id }}</td>
                     <td>{{ item.Articulo.Description }}</td> 
                     <td>{{ item.Cantidad }}</td> 
-                    <td>{{ item.Unitario | currency }}</td> 
-                    <td>{{ (item.Cantidad * item.Unitario) | currency }}</td>
+                    <td>{{ item.Sistema.Description }}</td> 
                     <td>
                         <button type="submit" class="tbl-button edit" ng-click="editItem(item, $index)">Edit</button>
                         <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
@@ -53,14 +55,14 @@
                 </tr>
             </tbody>
             <tfoot>
-                <tr><td colspan="4">Total: {{ stock.Items.length }}</td><td colspan="2"><label class="label-Totals">Total: {{ totalItems() | currency }} </label></td></tr>
+                <tr><td colspan="5">Total: {{ stock.Items.length }}</td></tr>
             </tfoot>
         </table>
         
         <div class="div-separate">
-            <button type="button" class="btn btn-success" ng-show="stock.Id <= 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock()">Agregar Entrada</button>
-            <button type="button" class="btn btn-success" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="updateStock()">Actualizar Entrada</button>
-            <button type="button" class="btn btn-default" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="cancelar()">Cancelar</button>
+            <button type="button" class="btn btn-success" ng-show="stock.Id <= 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock(1)">Agregar Salida</button>
+            <button type="button" class="btn btn-success" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock(3)">Actualizar Salida</button>
+            <button type="button" class="btn btn-default" data-animation="am-fade-and-scale" data-placement="center" ng-click="cancelar()">Cancelar</button>
         </div>
 
         <div class="div-separate">

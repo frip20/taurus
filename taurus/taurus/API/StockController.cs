@@ -11,6 +11,8 @@ using taurus.Core.Interfaces;
 using taurus.Core.Exceptions;
 using taurus.Core.Web;
 using taurus.Core.Services;
+using taurus.Core.API;
+using taurus.Core.Constants;
 
 namespace taurus.API
 {
@@ -29,13 +31,32 @@ namespace taurus.API
             return new TaurusResponseMessage(stock);
         }
 
-        public HttpResponseMessage Post(Stock stock)
+        public HttpResponseMessage Post(StockRequest stockRequest)
         {
             try
             {
+                Stock stock = null;
+
+                if (stockRequest.Action != APIActions.DELETE && stockRequest.Stock.Type == StockType.SALIDA) {
+                    if (stockRequest.Stock.Uso != null && stockRequest.Stock.Uso.Id <= 0) {
+                        stockRequest.Stock.Uso.SaveAndFlush();
+                    }
+                }
+
+                if (stockRequest.Action == APIActions.ADD) {
+                    _stock.addStock(stockRequest.Stock);
+                }
+                else if (stockRequest.Action == APIActions.UPDATE) {
+                    _stock.updateStock(stockRequest.Stock);
+                }
+                else if (stockRequest.Action == APIActions.DELETE)
+                {
+                    _stock.deleteStock(stockRequest.Stock);
+                }
+                stock = stockRequest.Stock;
+
                 if (stock != null)
                 {
-                    _stock.addStock(stock);
                     return new TaurusResponseMessage(stock.Id);
                 }
                 else {

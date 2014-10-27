@@ -52,8 +52,12 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'stockController'
         })
         .when('/stockout', {
-            templateUrl: 'templates/stockout.htm'
-            //controller: 'StockController'
+            templateUrl: 'templates/stockout.htm',
+            controller: 'stockOutController'
+        })
+        .when('/stockout/:stock_id', {
+            templateUrl: 'templates/stockout.htm',
+            controller: 'stockOutController'
         })
         .when('/stockmovs', {
             templateUrl: 'templates/stockmovs.htm',
@@ -62,6 +66,14 @@ app.config(['$routeProvider', function ($routeProvider) {
         .when('/adminuser', {
             templateUrl: 'templates/users.htm',
             controller: 'usersController'
+        })
+        .when('/edituser/:userId', {
+            templateUrl: 'templates/edituser.htm',
+            controller: 'editUserController'
+        })
+        .when('/bitacora', {
+            templateUrl: 'templates/bitacora.htm',
+            controller: 'bitacoraController'
         })
         .otherwise({
             redirectTo: '/home'

@@ -11,6 +11,8 @@ using taurus.Core.Interfaces;
 using taurus.Core.Exceptions;
 using taurus.Core.Web;
 using taurus.Core.Services;
+using taurus.Core.API;
+using taurus.Core.Constants;
 
 namespace taurus.API
 {
@@ -35,5 +37,59 @@ namespace taurus.API
                 return new TaurusResponseMessage(true, ex.Message);
             }
         }
+
+        public HttpResponseMessage Post(UserRequest request)
+        {
+            try
+            {
+                string pwd = "";
+                User us = null;
+                if(request.User.Id>0) 
+                    us = _user.searchObjectById(request.User.Id);
+
+                switch (request.Action)
+                {
+                    case APIActions.ADD:
+                        if (!_user.validateUserName(request.User.userName))
+                            throw new InvalidUserException(string.Format(MessageService.USERNAME_EXISTS, request.User.userName));
+
+                        pwd = EncryptService.Instance.Encrypt(request.User.Password);
+                        us = request.User;
+                        us.Password = pwd;
+                        us.Enable = true;
+                        us.lastAccessDate = DateTime.Today;
+                        us.SaveAndFlush();
+                        break;
+                    case APIActions.UPDATE:
+                        us.userRol = request.User.userRol;
+                        if (us.Password != request.User.Password) {
+                            pwd = EncryptService.Instance.Encrypt(request.User.Password);
+                            us.Password = pwd;
+                        }
+                        us.lastAccessDate = DateTime.Today;
+                        us.SaveAndFlush();
+                        break;
+                    case APIActions.SEARCHBYID:
+                        break;
+                    case APIActions.LOCK:
+                        us.Enable = false;
+                        us.SaveAndFlush();
+                        break;
+                    case APIActions.UNLOCK:
+                        us.Enable = true;
+                        us.SaveAndFlush();
+                        break;
+                    default:
+                        break;
+                }
+                return new TaurusResponseMessage(us);
+            }
+            catch (Exception ex)
+            {
+                return new TaurusResponseMessage(true, ex.Message);
+            }
+        }
+
+        
     }
 }

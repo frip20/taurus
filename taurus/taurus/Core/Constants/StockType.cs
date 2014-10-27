@@ -7,7 +7,7 @@ namespace taurus.Core.Constants
 {
     public enum StockType : int
     {
-        ENTRADA=101,
-        SALIDA=102
+        ENTRADA=1,
+        SALIDA=2
     }
 }

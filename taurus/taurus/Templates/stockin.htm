@@ -55,9 +55,9 @@
         </table>
         
         <div class="div-separate">
-            <button type="button" class="btn btn-success" ng-show="stock.Id <= 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock()">Agregar Entrada</button>
-            <button type="button" class="btn btn-success" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="updateStock()">Actualizar Entrada</button>
-            <button type="button" class="btn btn-default" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="cancelar()">Cancelar</button>
+            <button type="button" class="btn btn-success" ng-show="stock.Id <= 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock(1)">Agregar Entrada</button>
+            <button type="button" class="btn btn-success" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock(3)">Actualizar Entrada</button>
+            <button type="button" class="btn btn-default" data-animation="am-fade-and-scale" data-placement="center" ng-click="cancelar()">Cancelar</button>
         </div>
 
         <div class="div-separate">
