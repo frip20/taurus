@@ -9,6 +9,7 @@ using Ninject;
 using ninject.WebUI;
 using Castle.ActiveRecord;
 using Castle.ActiveRecord.Framework.Config;
+using log4net;
 
 namespace taurus
 {
@@ -17,7 +18,6 @@ namespace taurus
 
     public class MvcApplication : System.Web.HttpApplication
     {
-
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -43,7 +43,6 @@ namespace taurus
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
             ActiveRecordStarter.Initialize();

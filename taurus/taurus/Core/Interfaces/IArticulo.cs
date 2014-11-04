@@ -9,5 +9,9 @@ namespace taurus.Core.Interfaces
     public interface IArticulo : ISearchable<Articulo>
     {
         IEnumerable<Articulo> searchByNameOrPart(string search);
+
+        IEnumerable<Articulo> getAllArticulos();
+
+        Articulo getArticuloByDescription(string description);
     }
 }

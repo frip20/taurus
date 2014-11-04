@@ -94,7 +94,7 @@ textarea
 }
 #middle {
     top:100px;
-    bottom:-100px;
+    bottom:-200px;
     width:100%;
     background:white;
     margin-bottom:-40px;
@@ -170,6 +170,13 @@ textarea
 .warning{font-size:11px;margin-top:8px;}
 .warning.message{font-style:italic; color:#6BBA70;}
 .warning.error{color:#D01F3C;}
+
+.paginator{}
+.paginator .navbtn{ background-color: transparent; background-repeat: no-repeat; background-position: 0px 0px; border: none; cursor: pointer; height: 22px; padding-left: 22px; vertical-align: middle;}
+.paginator .next{ background-image: url(/images/next.png); }
+.paginator .previous{ background-image: url(/images/previous.png); }
+.paginator .first{ background-image: url(/images/first.png); }
+.paginator .last{ background-image: url(/images/last.png); }
 
 .modal-backdrop.am-fade {
   opacity: .5;

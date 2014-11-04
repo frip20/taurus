@@ -13,6 +13,7 @@ namespace taurus.Core.Constants
         UPDATE=3,
         LOCK=4,
         UNLOCK=5,
-        SEARCHBYID=6
+        SEARCHBYID=6,
+        CUSTOMSEARCH=7
     }
 }

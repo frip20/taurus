@@ -9,5 +9,6 @@ namespace taurus.Core.Interfaces
     public interface ISistema : ISearchable<Sistema>
     {
         IEnumerable<Sistema> searchByNameOrClave(string search);
+        Sistema getSistemaByDescription(string description);
     }
 }

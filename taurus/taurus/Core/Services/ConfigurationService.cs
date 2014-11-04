@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Configuration;
+using taurus.Core.Entities;
+
 
 namespace taurus.Core.Services
 {
@@ -10,8 +11,11 @@ namespace taurus.Core.Services
     {
         private static volatile ConfigurationService _service;
         private static object syncRoot = new Object();
+        private IEnumerable<Configuration> configs;
 
-        private ConfigurationService() { }
+        private ConfigurationService() {
+            configs = Configuration.FindAll().AsEnumerable<Configuration>();
+        }
 
         public static ConfigurationService Instance
         {
@@ -28,26 +32,46 @@ namespace taurus.Core.Services
 
                 return _service;
             } 
-       }
+        }
+
+        private Configuration getConfigurationByName(string name) {
+            return configs.Where(c => c.Description.ToLower() == name.ToLower()).First();
+        }
 
         public string getProperty(string propertyName) {
-            if (ConfigurationManager.AppSettings[propertyName] != null)
-                return ConfigurationManager.AppSettings[propertyName].ToString();
-            else
-                return "";
+            return getProperty(propertyName, null);
+        }
+
+        public string getProperty(string propertyName, string defaultValue) {
+            Configuration config = getConfigurationByName(propertyName);
+            if (config == null)
+            {
+                return defaultValue;
+            }
+            else {
+                return config.Value;
+            }
         }
 
         public int getPropertyAsInt(string propertyName) {
+            return getPropertyAsInt(propertyName, 0);
+        }
+
+        public int getPropertyAsInt(string propertyName, int defaultValue) {
             int val = -1;
-            string propVal = this.getProperty(propertyName);
+            string propVal = this.getProperty(propertyName, defaultValue.ToString());
             int.TryParse(propVal,out val);
             return val;
         }
 
-        public bool getPropertyAsBoolean(string propertyName)
+        public bool getPropertyAsBoolean(string propertyName) {
+            return getPropertyAsBoolean(propertyName, false);
+        }
+
+        public bool getPropertyAsBoolean(string propertyName, bool defaultValue)
         {
             bool val = false;
-            string propVal = this.getProperty(propertyName);
+            string propVal = this.getProperty(propertyName, defaultValue.ToString());
             bool.TryParse(propVal, out val);
             return val;
         }

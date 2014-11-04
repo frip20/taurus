@@ -17,5 +17,7 @@ namespace taurus.Core.Interfaces
         IList<taurus.Core.Entities.Action> actionsByUser(int userId);
 
         IList<User> getAllUsers();
+
+        void registerLogin(User user);
     }
 }

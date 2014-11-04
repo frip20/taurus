@@ -1,0 +1,69 @@
+﻿<h1>Empleados</h1>
+
+<div>
+    <div ng-show="editing>=0">
+        <div >
+           <table class="table-form">
+            <tr>
+                <td>Nombre</td>
+                <td><input type=text name="description" class="form-control" placeholder="Nombre del empleado" ng-model="empleado.Description" required /> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Puesto</td>
+                <td><input type=text name="puesto" class="form-control" placeholder="Puesto" ng-model="empleado.Puesto" /> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Area</td>
+                <td><select ng-model="empleado.Area.Id" class="form-control" placeholder="Area" ng-options="item.Id as item.Description for item in areas"></select> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type=text name="email" class="form-control" placeholder="email" ng-model="empleado.Email" /> </td>
+                <td></td>
+            </tr>
+           </table>
+           <div class="warning message">* Campos requeridos</div>
+           <div class="warning error">{{ errorForm }}</div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" ng-hide="empleado.Id > 0" ng-click="addItem(1)">Agregar</button>
+            <button type="button" class="btn btn-primary" ng-show="empleado.Id > 0" ng-click="addItem(3)">Actualizar</button>
+            <button type="button" class="btn btn-default" ng-click="Cancelar()">Cancelar</button>
+        </div>
+    </div>
+    
+    <div ng-hide="editing>=0">
+        <input type=button class="btn btn-default" value="Agregar empleado" ng-click="newItem()" />
+        <table class="tbl-form">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Descripcion</td>
+                    <td>Puesto</td>
+                    <td>Area</td>
+                    <td>Email</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="animate" ng-repeat="item in empleados" >
+                    <td>{{ item.Id }}</td>
+                    <td>{{ item.Description }}</td> 
+                    <td>{{ item.Puesto }}</td> 
+                    <td>{{ item.Area.Description }}</td> 
+                    <td>{{ item.Email }}</td> 
+                    <td>
+                        <button type="submit" class="tbl-button edit" ng-click="editItem(item, $index)">Edit</button>
+                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><td colspan="6"><angu-pages url="api/empleados?search=" listitems="empleados"></angu-pages></td></tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

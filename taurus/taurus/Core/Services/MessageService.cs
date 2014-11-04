@@ -17,12 +17,18 @@ namespace taurus.Core.Services
         public const string INVALID_USERROLE = "El usuario: {0} tiene un rol invalido";
 
         public const string UNDEFINED_OBJECT = "{0} - El registro no este definido";
-
-
+        
         public const string CASTLE_DELETE_ERROR = "{0} : Error al eliminar el registro";
         public const string CASTLE_SAVE_ERROR = "{0} : Error al guardar el registro";
         public const string CASTLE_UPDATE_ERROR = "{0} : Error al actualizar el registro";
         public const string CASTLE_SEARCH_ERROR = "{0} : Error al buscar los registros";
+        public const string CASTLE_DUPLICATE_ERROR = "El valor {0} ya existe en la base de datos";
+
+        public const string USER_LOGGING = "EL usuario [{0}] ha iniciado sesion en el sistema";
+
+        public const string SAVE_CASTLE_ITEM = "{0}: Se ha registrado un nuevo item";
+        public const string UPDATE_CASTLE_ITEM = "{0}: Se ha actualizado el item";
+        public const string DELETE_CASTLE_ITEM = "{0}: Se ha eliminado el item";
 
     }
 }

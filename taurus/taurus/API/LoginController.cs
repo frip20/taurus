@@ -45,9 +45,8 @@ namespace taurus.API
                     throw new InvalidUserException(string.Format(MessageService.USER_BLOCKED, user.userName));
 
                 //Save last access date
-                user.lastAccessDate = DateTime.Now;
-                user.SaveAndFlush();
-
+                _login.registerLogin(user);
+                
                 HttpContext.Current.Session["uid"] = uid;
                 HttpContext.Current.Session["user"] = user;
 

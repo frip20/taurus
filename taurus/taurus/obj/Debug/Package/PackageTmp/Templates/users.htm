@@ -1,0 +1,30 @@
+﻿<h1>Usuarios</h1>
+
+<div ng-init="init()">
+    <input type=button class="btn btn-default" value="Agregar Usuario" ng-click="addUser()" />
+    <table class="tbl-form"  >
+            <thead>
+                <tr>
+                    <td>Nombre</td>
+                    <td>Role</td>
+                    <td>Ultimo acceso</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="animate" ng-repeat="item in users | orderBy : userName" >
+                    <td>{{ item.userName }}</td>
+                    <td>{{ item.userRol.Description }}</td> 
+                    <td>{{ item.lastAccessDate | date:'MM/dd/yyyy HH:mm' }}</td> 
+                    <td>
+                        <button type="submit" class="tbl-button edit" ng-click="editUser(item.Id)">Edit</button>
+                        <button type="submit" ng-show="item.Enable" class="tbl-button delete" ng-really-message="Esta seguro de inhabilitar al usuario?" ng-really-click="lockUser(item.Id, $index, true)">Bloquear</button>
+                        <button type="submit" ng-hide="item.Enable" class="tbl-button delete" ng-click="lockUser(item.Id, $index, false)">Desbloquear</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><td colspan="4">Total: {{ users.length }}</td></tr>
+            </tfoot>
+        </table>
+</div>

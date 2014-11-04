@@ -106,5 +106,19 @@ namespace taurus.Core.Factories
             }
 
         }
+
+
+        public void saveUso(Uso uso)
+        {
+            try
+            {
+                uso.SaveAndFlush();
+            }
+            catch (Exception ex)
+            {
+
+                throw new CastleActivityException(string.Format(MessageService.CASTLE_SAVE_ERROR, "saveUso"), ex);
+            }
+        }
     }
 }

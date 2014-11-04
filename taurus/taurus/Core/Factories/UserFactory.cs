@@ -7,6 +7,7 @@ using taurus.Core.Entities;
 using taurus.Core.Services;
 using taurus.Core.Exceptions;
 using NHibernate.Criterion;
+using taurus.Core.Constants;
 
 namespace taurus.Core.Factories
 {
@@ -65,11 +66,35 @@ namespace taurus.Core.Factories
             return User.FindAll();
         }
 
-
         public bool validateUserName(string userName)
         {
             List<User> users = User.FindAllByProperty("userName", userName).ToList<User>();
             return (users.Count <= 0);
         }
+        
+        public void registerLogin(User user)
+        {
+            try
+            {
+                if (user != null)
+                {
+                    user.lastAccessDate = DateTime.Now;
+                    user.SaveAndFlush();
+                    AuditService.Instance.registerEvent(EventType.USER_LOGGING, user.Id, string.Format(MessageService.USER_LOGGING, user.userName));
+                }
+                else
+                {
+                    throw new InvalidUserException(string.Format(MessageService.UNDEFINED_OBJECT, "userName"));
+                }
+            }
+            catch (InvalidUserException ex) {
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidUserException(string.Format(MessageService.USER_NOTFOUND, "registerLogin"), ex);
+            }
+        }
+
     }
 }

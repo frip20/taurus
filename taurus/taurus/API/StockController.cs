@@ -39,7 +39,7 @@ namespace taurus.API
 
                 if (stockRequest.Action != APIActions.DELETE && stockRequest.Stock.Type == StockType.SALIDA) {
                     if (stockRequest.Stock.Uso != null && stockRequest.Stock.Uso.Id <= 0) {
-                        stockRequest.Stock.Uso.SaveAndFlush();
+                        _stock.saveUso(stockRequest.Stock.Uso);
                     }
                 }
 

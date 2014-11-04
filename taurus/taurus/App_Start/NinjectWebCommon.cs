@@ -58,6 +58,7 @@ namespace ninject.WebUI
         public override void Load()
         {
             //TODO: Bind to Concrete Types Here
+            this.Bind<ICastleProvider>().To<CastleProviderFactory>();
             this.Bind<IUser>().To<UserFactory>();
             this.Bind<IProveedor>().To<ProveedorFactory>();
             this.Bind<IArticulo>().To<ArticuloFactory>();
@@ -67,8 +68,12 @@ namespace ninject.WebUI
             this.Bind<IDepartamento>().To<DepartmentFactory>();
             this.Bind<IUso>().To<UsoFactory>();
             this.Bind<IEmpleado>().To<EmpleadoFactory>();
-            this.Bind<IConcepto>().To<ConceptoFactory>();
+            this.Bind<IConsumo>().To<ConsumoFactory>();
             this.Bind<IMaquina>().To<MaquinaFactory>();
+            this.Bind<IBitacora>().To<BitacoraFactory>();
+            this.Bind<IArea>().To<AreaFactory>();
+            this.Bind<ICategoria>().To<CategoriaFactory>();
+            this.Bind<IUnidad>().To<UnidadFactory>();
         }
     }
 

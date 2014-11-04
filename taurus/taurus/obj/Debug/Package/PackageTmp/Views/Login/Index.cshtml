@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/_loginLayout.cshtml";
+}
+<h2>LogIn</h2>
+
+<div ng-controller='loginController'>
+    <form name=loginForm>
+        <div class=formContainer>
+        <div class="formContainer row">
+            <div class="formContainer left"><label for='txtuser'>Usario:</label></div>
+            <div class="formContainer center"><input class="form-control" type=text placeholder='Nombre de usuario' name='txtuser' ng-model='user.userName'  
+                ng-minlength="3" ng-maxlength="50" required /></div>
+            <div class="formContainer right"><span class="error" ng-show="loginForm.txtuser.$dirty && loginForm.txtuser.$error.required">Campo requerido!</span></div>
+        </div>
+        <div class="formContainer row">
+            <div class="formContainer left"><label for='txtuser'>Contraseña:</label></div>
+            <div class="formContainer center"><input class="form-control" type=password placeholder='Contraseña' name='txtpwd' ng-model='user.Password' required /></div>
+            <div class="formContainer right"><span class="error" ng-show="loginForm.txtpwd.$dirty && loginForm.txtpwd.$error.required">Campo requerido!</span></div>
+        </div>
+        <div class="formContainer row">
+            <div class="formContainer left"></div>
+            <div class="formContainer center"><button ng-disabled="loginForm.$invalid" ng-click='loginUser()'>Log in</button></div>
+            <div class="formContainer right"></div>
+        </div>
+        </div>
+
+        <div>
+            <alert ng-repeat="alert in systemAlerts" type="{{alert.type}}" close="alert.close()">{{alert.msg}}</alert>
+        </div>
+    </form>
+    
+</div>
+

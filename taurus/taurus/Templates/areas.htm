@@ -1,0 +1,55 @@
+﻿<h1>Areas</h1>
+
+<div>
+    <div ng-show="editing>=0">
+        <div >
+           <table class="table-form">
+            <tr>
+                <td>Descripcion</td>
+                <td><input type=text name="description" class="form-control" placeholder="Descripcion del Area" ng-model="area.Description" required /> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Departamento</td>
+                <td><select ng-model="area.Departamento.Id" class="form-control" placeholder="Departamento" ng-options="item.Id as item.Description for item in departments"></select> </td>
+                <td></td>
+            </tr>
+           </table>
+           <div class="warning message">* Campos requeridos</div>
+           <div class="warning error">{{ errorForm }}</div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" ng-hide="area.Id > 0" ng-click="addItem(1)">Agregar</button>
+            <button type="button" class="btn btn-primary" ng-show="area.Id > 0" ng-click="addItem(3)">Actualizar</button>
+            <button type="button" class="btn btn-default" ng-click="Cancelar()">Cancelar</button>
+        </div>
+    </div>
+    
+    <div ng-hide="editing>=0">
+        <input type=button class="btn btn-default" value="Agregar Area" ng-click="newItem()" />
+        <table class="tbl-form">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Descripcion</td>
+                    <td>Departamento</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="animate" ng-repeat="item in areas" >
+                    <td>{{ item.Id }}</td>
+                    <td>{{ item.Description }}</td> 
+                    <td>{{ item.Departamento.Description }}</td> 
+                    <td>
+                        <button type="submit" class="tbl-button edit" ng-click="editItem(item, $index)">Edit</button>
+                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><td colspan="4">Total: {{ areas.length }}</td></tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

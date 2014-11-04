@@ -5,7 +5,7 @@ using System.Web;
 
 namespace taurus.Core.Exceptions
 {
-    public class UserRolException : Exception
+    public class UserRolException : TaurusException
     {
         public UserRolException(string message) : base(message) {}
 

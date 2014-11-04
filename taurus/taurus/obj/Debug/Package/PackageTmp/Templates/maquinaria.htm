@@ -1,0 +1,85 @@
+﻿<h1>Maquinaria</h1>
+
+<div>
+    <div ng-show="editing>=0">
+        <div >
+           <table class="table-form">
+            <tr>
+                <td>Descripcion</td>
+                <td><input type=text name="description" class="form-control" placeholder="Descripcion" ng-model="maquina.Description" required /> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Num Econo:</td>
+                <td><input type=text name="econo" class="form-control" placeholder="Num Econo" ng-model="maquina.Econo" /> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Area</td>
+                <td><select ng-model="maquina.Area.Id" class="form-control" placeholder="Area" ng-options="item.Id as item.Description for item in areas"></select> </td>
+                <td></td>
+            </tr>
+            
+            <tr>
+                <td>Operador</td>
+                <td>
+                    <angucomplete id="responsable" placeholder="Responsable" pause="300" selectedobject="responsableSelected" titlefield="Description" datafield="jData" 
+                    minlength="3" url="/api/empleados?search=" inputclass="form-control form-control-small" matchclass="highlight" selectedscope="maquina.Operador"></angucomplete>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Placa</td>
+                <td><input type=text name="placa" class="form-control" placeholder="Num de Placa" ng-model="maquina.Placa" /> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Comentarios</td>
+                <td><input type=text name="comments" class="form-control" placeholder="Comentarios" ng-model="maquina.Comments" /> </td>
+                <td></td>
+            </tr>
+           </table>
+           <div class="warning message">* Campos requeridos</div>
+           <div class="warning error">{{ errorForm }}</div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" ng-hide="maquina.Id > 0" ng-click="addItem(1)">Agregar</button>
+            <button type="button" class="btn btn-primary" ng-show="maquina.Id > 0" ng-click="addItem(3)">Actualizar</button>
+            <button type="button" class="btn btn-default" ng-click="Cancelar()">Cancelar</button>
+        </div>
+    </div>
+    
+    <div ng-hide="editing>=0">
+        <input type=button class="btn btn-default" value="Agregar Maquinaria" ng-click="newItem()" />
+        <table class="tbl-form">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Descripcion</td>
+                    <td>Num Economico</td>
+                    <td>Area</td>
+                    <td>Operador</td>
+                    <td>Placa</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="animate" ng-repeat="item in maquinas | orderBy:'Description'" >
+                    <td>{{ item.Id }}</td>
+                    <td>{{ item.Description }}</td> 
+                    <td>{{ item.Econo }}</td> 
+                    <td>{{ item.Area.Description }}</td> 
+                    <td>{{ item.Operador.Description }}</td> 
+                    <td>{{ item.Placa }}</td> 
+                    <td>
+                        <button type="submit" class="tbl-button edit" ng-click="editItem(item, $index)">Edit</button>
+                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr><td colspan="6"><angu-pages url="api/maquinaria" listitems="maquinas"></angu-pages></td></tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

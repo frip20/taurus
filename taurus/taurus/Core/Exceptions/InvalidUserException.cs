@@ -5,7 +5,7 @@ using System.Web;
 
 namespace taurus.Core.Exceptions
 {
-    public class InvalidUserException : Exception
+    public class InvalidUserException : TaurusException
     {
         public InvalidUserException(string message) : base(message) {}
 

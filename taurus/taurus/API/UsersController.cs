@@ -18,11 +18,13 @@ namespace taurus.API
 {
     public class UsersController : ApiController
     {
-        public readonly IUser _user;
+        private readonly IUser _user;
+        private readonly ICastleProvider _provider;
 
-        public UsersController(IUser user)
+        public UsersController(IUser user, ICastleProvider provider)
         {
             _user = user;
+            _provider = provider;
         }
 
         public HttpResponseMessage Get()
@@ -56,9 +58,8 @@ namespace taurus.API
                         pwd = EncryptService.Instance.Encrypt(request.User.Password);
                         us = request.User;
                         us.Password = pwd;
-                        us.Enable = true;
                         us.lastAccessDate = DateTime.Today;
-                        us.SaveAndFlush();
+                        _provider.Save(us);
                         break;
                     case APIActions.UPDATE:
                         us.userRol = request.User.userRol;
@@ -67,17 +68,17 @@ namespace taurus.API
                             us.Password = pwd;
                         }
                         us.lastAccessDate = DateTime.Today;
-                        us.SaveAndFlush();
+                        _provider.Update(us);
                         break;
                     case APIActions.SEARCHBYID:
                         break;
                     case APIActions.LOCK:
                         us.Enable = false;
-                        us.SaveAndFlush();
+                        _provider.Update(us);
                         break;
                     case APIActions.UNLOCK:
                         us.Enable = true;
-                        us.SaveAndFlush();
+                        _provider.Update(us);
                         break;
                     default:
                         break;

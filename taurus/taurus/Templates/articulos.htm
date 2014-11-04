@@ -1,0 +1,71 @@
+﻿<h1>Productos</h1>
+
+<div>
+    <div ng-show="editing>=0">
+        <div >
+           <table class="table-form">
+            <tr>
+                <td>Parte</td>
+                <td><input type=text name="description" class="form-control" placeholder="Numero de parte" ng-model="producto.Parte" required /> </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>Descripcion</td>
+                <td><input type=text name="description" class="form-control" placeholder="Descripcion del producto" ng-model="producto.Description" required /> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Categoria</td>
+                <td><categorias-drop id="categoria" selectedscope="producto.Categoria"></categorias-drop></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Unidad</td>
+                <td><unidades-drop id="unidad" selectedscope="producto.Unidad"></unidades-drop></td>
+                <td></td>
+            </tr>
+           </table>
+           <div class="warning message">* Campos requeridos</div>
+           <div class="warning error">{{ errorForm }}</div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" ng-hide="producto.Id > 0" ng-click="addItem(1)">Agregar</button>
+            <button type="button" class="btn btn-primary" ng-show="producto.Id > 0" ng-click="addItem(3)">Actualizar</button>
+            <button type="button" class="btn btn-default" ng-click="Cancelar()">Cancelar</button>
+        </div>
+    </div>
+    
+    <div ng-hide="editing>=0">
+        <input type=button class="btn btn-default" value="Agregar producto" ng-click="newItem()" />
+        <table class="tbl-form">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Numero de Parte</td>
+                    <td>Nombre</td>
+                    <td>Unidad</td>
+                    <td>Categoria</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="animate" ng-repeat="item in productos | orderBy : 'Id'" >
+                    <td>{{ item.Id }}</td>
+                    <td>{{ item.Parte }}</td>
+                    <td>{{ item.Description }}</td> 
+                    <td>{{ item.Unidad.Description }}</td> 
+                    <td>{{ item.Categoria.Description }}</td> 
+                    <td>
+                        <button type="submit" class="tbl-button edit" ng-click="editItem(item, $index)">Edit</button>
+                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <!--<tr><td colspan="6">Total: {{ productos.length }}</td></tr>-->
+                <tr><td colspan="6"><angu-pages url="api/articulo?search=" listitems="productos"></angu-pages></td></tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

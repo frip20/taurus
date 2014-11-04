@@ -19,10 +19,12 @@ namespace taurus.API
     public class MaquinariaController : ApiController
     {
         public readonly IMaquina _maquina;
+        private readonly ICastleProvider _provider;
 
-        public MaquinariaController(IMaquina maquina)
+        public MaquinariaController(IMaquina maquina, ICastleProvider provider)
         {
             _maquina=maquina;
+            _provider = provider;
         }
 
         public HttpResponseMessage Get()
@@ -36,6 +38,32 @@ namespace taurus.API
             {
                 return new TaurusResponseMessage(true, ex.Message);
             }
+        }
+
+        public HttpResponseMessage Post(MaquinaRequest request)
+        {
+            try
+            {
+                switch (request.Action)
+                {
+                    case APIActions.ADD:
+                        _provider.Save(request.Maquina);
+                        break;
+                    case APIActions.DELETE:
+                        request.Maquina.Enable = false;
+                        _provider.Update(request.Maquina);
+                        break;
+                    case APIActions.UPDATE:
+                        _provider.Update(request.Maquina);
+                        break;
+                }
+                return new TaurusResponseMessage(request.Maquina);
+            }
+            catch (Exception ex)
+            {
+                return new TaurusResponseMessage(true, ex.Message);
+            }
+
         }
     }
 }
