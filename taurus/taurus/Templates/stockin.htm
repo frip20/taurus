@@ -21,10 +21,12 @@
         </tr>
     </table>
 </div>
+
 <div class="div-separate"></div>
 <div>
     <button type="button" class="btn btn-primary" data-animation="am-fade-and-scale" data-placement="center" data-template="/templates/addItemStock.htm" bs-modal="modal">Agregar Articulo</button>
-    <div ng-show="stock.Items.length>0">
+    <div class="div-separate"></div>
+    <div ng-show="stock.Items.length>0" class="tbl-wraper">
         <table class="tbl-form" >
             <thead>
                 <tr>
@@ -52,17 +54,48 @@
             <tfoot>
                 <tr><td colspan="4">Total: {{ stock.Items.length }}</td><td colspan="2"><label class="label-Totals">Total: {{ totalItems() | currency }} </label></td></tr>
             </tfoot>
-        </table>
-        
-        <div class="div-separate">
+        </table>       
+    </div>
+
+        <div class="tblForm" ng-show="stock.Id > 0 && canSendPoliza" >
+            <div class="div-separate"></div>
+            <table class="table-form">
+                <tr>
+                    <td>Poliza concepto:</td>
+                    <td><input type="text" class="form-control" name="polconcepto" placeholder="Concepto de la poliza" ng-model="stock.polizaConcepto"  /></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="div-separate"></div>
+        <div class="modal-footer">
             <button type="button" class="btn btn-success" ng-show="stock.Id <= 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock(1)">Agregar Entrada</button>
             <button type="button" class="btn btn-success" ng-show="stock.Id > 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="addStock(3)">Actualizar Entrada</button>
+            <button type="button" class="btn btn-primary" ng-show="stock.Id > 0 && canSendPoliza && stock.PolizaId == 0" data-animation="am-fade-and-scale" data-placement="center" ng-click="readyForPoliza()">Generar poliza</button>
             <button type="button" class="btn btn-default" data-animation="am-fade-and-scale" data-placement="center" ng-click="cancelar()">Cancelar</button>
         </div>
 
         <div class="div-separate">
             <div class="warning error">{{ errorForm }}</div>
         </div>
-    </div>
+
+        <div class="div-separate"></div>
+        <div ng-show="doingPoliza">
+            <table class="tbl-actions" >
+                <thead>
+                    <tr>
+                        <td style="width:5%">No</td>
+                        <td style="width:95%">Accion</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="animate" ng-repeat="act in polizaActions" >
+                        <td>{{$index+1}}</td>
+                        <td>{{act}}</td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 </div>
 

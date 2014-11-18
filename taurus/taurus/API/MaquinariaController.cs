@@ -56,6 +56,8 @@ namespace taurus.API
                     case APIActions.UPDATE:
                         _provider.Update(request.Maquina);
                         break;
+                    case APIActions.CUSTOMSEARCH:
+                        return new TaurusResponseMessage(_maquina.filterBy(request.Maquina));
                 }
                 return new TaurusResponseMessage(request.Maquina);
             }

@@ -74,6 +74,8 @@ namespace ninject.WebUI
             this.Bind<IArea>().To<AreaFactory>();
             this.Bind<ICategoria>().To<CategoriaFactory>();
             this.Bind<IUnidad>().To<UnidadFactory>();
+            this.Bind<ICuenta>().To<CuentaFactory>();
+            this.Bind<ICompac>().To<CompacFactory>();
         }
     }
 

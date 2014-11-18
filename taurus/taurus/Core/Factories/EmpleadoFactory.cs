@@ -6,6 +6,8 @@ using taurus.Core.Interfaces;
 using taurus.Core.Entities;
 using taurus.Core.Services;
 using taurus.Core.Exceptions;
+using System.Collections;
+using NHibernate.Criterion;
 
 namespace taurus.Core.Factories
 {
@@ -37,6 +39,20 @@ namespace taurus.Core.Factories
         public Empleado searchObjectById(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable filterBy(object criterias)
+        {
+            if (criterias == null)
+                return getAllEmpleados();
+
+            Empleado emp = (Empleado)criterias;
+            DetachedCriteria dc = DetachedCriteria.For<Empleado>().Add(Restrictions.Eq("Enable", true));
+            if (emp.Description != null && emp.Description.Trim() != "")
+                dc.Add(Restrictions.Like("Description", "%" + emp.Description + "%"));
+            //if (art.Parte != null && art.Parte.Trim() != "")
+            //    dc.Add(Restrictions.Like("Parte", "%" + art.Parte + "%"));
+            return Empleado.FindAll(dc);
         }
     }
 }

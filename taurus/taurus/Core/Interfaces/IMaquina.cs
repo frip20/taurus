@@ -6,7 +6,7 @@ using taurus.Core.Entities;
 
 namespace taurus.Core.Interfaces
 {
-    public interface IMaquina : ISearchable<Maquina>
+    public interface IMaquina : ISearchable<Maquina>, IFilterable
     {
         IEnumerable<Maquina> getAllMaquinaria();
     }

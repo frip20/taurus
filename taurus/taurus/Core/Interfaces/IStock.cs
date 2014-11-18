@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using taurus.Core.Entities;
 using taurus.Core.Dbutil;
+using taurus.Core.Constants;
 
 namespace taurus.Core.Interfaces
 {
@@ -17,6 +18,8 @@ namespace taurus.Core.Interfaces
 
         IEnumerable<Stock> getStockMovs(StockMovCriteria criteria);
 
-        void saveUso(Uso uso); 
+        void saveUso(Uso uso);
+
+        void afectarSaldo(StockItem item, StockType type); 
     }
 }

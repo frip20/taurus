@@ -65,6 +65,8 @@ namespace taurus.API
                     case APIActions.UPDATE:
                         _provider.Update(request.Articulo);
                         break;
+                    case APIActions.CUSTOMSEARCH:
+                        return new TaurusResponseMessage(_articulo.filterBy(request.Articulo));
                 }
                 return new TaurusResponseMessage(request.Articulo);
             }

@@ -18,7 +18,7 @@ app.factory('empleadosService', function ($http, $q) {
 
     _factory.requestEmpleado = function (emp, action) {
         var deferred = $q.defer();
-        $http.post('api/areas', { Empleado: emp, Action: action }).success(function (apiData) {
+        $http.post('api/empleados', { Empleado: emp, Action: action }).success(function (apiData) {
             if (apiData.Status == 'OK') {
                 deferred.resolve(apiData.jData);
             } else {
@@ -36,6 +36,7 @@ app.factory('empleadosService', function ($http, $q) {
 
 
 app.controller('empleadosController', function ($scope, areasService, empleadosService) {
+    $scope.searchBy = { Action: 7, Empleado: {} };
     $scope.areas = [];
     $scope.empleados = [];
     $scope.empleado = { Id: 0 };
@@ -76,7 +77,7 @@ app.controller('empleadosController', function ($scope, areasService, empleadosS
     }
 
     $scope.addItem = function (action) {
-        empleadosService.requestArea($scope.empleado, action)
+        empleadosService.requestEmpleado($scope.empleado, action)
             .then(function (data) {
                 if (action == 1)
                     $scope.empleados.push(data);
@@ -88,5 +89,16 @@ app.controller('empleadosController', function ($scope, areasService, empleadosS
                 $scope.errorForm = data;
             });
     };
+
+    $scope.filterBy = function () {
+        $scope.searchBy = { Action: 7, Empleado: { Description: $('#searchNombre').val() } };
+    };
+
+    $scope.clearFilter = function () {
+        if ($('#searchNombre').val().trim() != '') {
+            $('#searchForm input[type=text]').val('');
+            $scope.searchBy = { Action: 7, Empleado: {} };
+        }
+    }
 
 });

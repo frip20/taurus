@@ -58,14 +58,31 @@
         return deferred.promise;
     };
 
+    _factory.updateItem = function (item, action, type, stockId) {
+        var deferred = $q.defer();
+        $http.post('api/stockitem', {Action: action, StockItem: item, Type: type, StockId: stockId}).success(function (apiData) {
+            if (apiData.Status == 'OK') {
+                deferred.resolve(apiData.jData);
+            } else {
+                deferred.reject(apiData.jData)
+            }
+        }).error(function () {
+            deferred.reject(0);
+        });
+        return deferred.promise;
+    };
+
     return _factory;
 });
 
-app.controller('stockController', function ($scope, $modal, $http, $q, $routeParams, $location, stockService) {
+app.controller('stockController', function ($scope, $modal, $http, $q, $routeParams, $location, stockService, loginService) {
     $scope.stock = { Id: 0, Items: [], CreateDate: new Date() };
     $scope.newItem = {};
     $scope.indexEdit = -1;
     $scope.errorForm = '';
+    $scope.doingPoliza = false;
+    $scope.polizaActions = [];
+    $scope.canSendPoliza = loginService.hasPermission(105);
 
     $scope.init = function () {
         if ($routeParams.stock_id != null) {
@@ -83,12 +100,18 @@ app.controller('stockController', function ($scope, $modal, $http, $q, $routePar
     $scope.addItem = function () {
         if ($scope.validForm()) {
             if ($scope.indexEdit >= 0) {
-                $scope.stock.Items[$scope.indexEdit] = $scope.newItem;
+                stockService.updateItem($scope.newItem, 3, 1, $scope.stock.Id)//entrada
+                .then(function (data) {
+                    $scope.stock.Items[$scope.indexEdit] = $scope.newItem;
+                    $scope.clearForm();
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
             } else {
                 $scope.stock.Items.push($scope.newItem);
+                $scope.clearForm();
             }
-            $scope.clearForm();
-
+            
             //close popup
             this.$hide();
         }
@@ -103,7 +126,15 @@ app.controller('stockController', function ($scope, $modal, $http, $q, $routePar
     };
 
     $scope.deleteItem = function (item, index) {
-        $scope.stock.Items.splice(index, 1);
+        if (item.Id > 0) {
+            stockService.updateItem(item, 2, 1)//entrada
+                .then(function (data) {
+                    $scope.stock.Items.splice(index, 1);
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
+        }
+        
     };
 
     $scope.closePopup = function () {
@@ -175,7 +206,7 @@ app.controller('stockController', function ($scope, $modal, $http, $q, $routePar
                 }, function (data) {
                     $scope.errorForm = data;
                 });
-            
+
         }
     };
 
@@ -196,6 +227,24 @@ app.controller('stockController', function ($scope, $modal, $http, $q, $routePar
 
         }
     };
+
+    $scope.readyForPoliza = function () {
+        var ready = true;
+        for (var i = 0; i < $scope.stock.Items.length; i++) {
+            if (ready && $scope.stock.Items[i].Cuenta == null)
+                ready = false;
+        }
+
+        if (!ready) {
+            $scope.errorForm = 'No todos los articulos tienen una cuenta asignada';
+        } else {
+            $scope.doingPoliza = true;
+            $scope.polizaActions.push('Generando poliza');
+            $scope.polizaActions.push('Enviando informacion a Contpaq');
+
+
+        }
+    }
 
 });
 
@@ -247,7 +296,6 @@ app.controller('stockMovController', function ($scope, $modal, $http, $q, $locat
     };
 
     $scope.deleteItem = function (id, index) {
-        console.log(id);
         stockService.deleteStock(id)
             .then(function (data) {
                 $window.alert('El registro a sido eliminado.');
@@ -262,12 +310,15 @@ app.controller('stockMovController', function ($scope, $modal, $http, $q, $locat
 
 
 
-app.controller('stockOutController', function ($scope, $modal, $http, $q, $routeParams, $location, $window, stockService, departmentService) {
+app.controller('stockOutController', function ($scope, $modal, $http, $q, $routeParams, $location, $window, stockService, departmentService, loginService) {
     $scope.stock = { Id: 0, Items: [], CreateDate: new Date(), Uso: null, Type: 2 };
     $scope.departments = [];
     $scope.newItem = {};
     $scope.indexEdit = -1;
     $scope.errorForm = '';
+    $scope.doingPoliza = false;
+    $scope.polizaActions = [];
+    $scope.canSendPoliza = loginService.hasPermission(105);
 
     $scope.init = function () {
         departmentService.getAllDepartments()
@@ -304,11 +355,18 @@ app.controller('stockOutController', function ($scope, $modal, $http, $q, $route
     $scope.addItem = function () {
         if ($scope.validForm()) {
             if ($scope.indexEdit >= 0) {
-                $scope.stock.Items[$scope.indexEdit] = $scope.newItem;
+                stockService.updateItem($scope.newItem, 3, 2, $scope.stock.Id) //salida
+                .then(function (data) {
+                    $scope.stock.Items[$scope.indexEdit] = data;
+                    $scope.clearForm();
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
             } else {
                 $scope.stock.Items.push($scope.newItem);
+                $scope.clearForm();
             }
-            $scope.clearForm();
+            
 
             //close popup
             this.$hide();
@@ -393,14 +451,40 @@ app.controller('stockOutController', function ($scope, $modal, $http, $q, $route
     };
 
     $scope.deleteItem = function (item, index) {
-        $scope.stock.Items.splice(index, 1);
+        if (item.Id > 0) {
+            stockService.updateItem(item, 2, 2)//salida
+            .then(function (data) {
+                $scope.stock.Items.splice(index, 1);
+            }, function (data) {
+                $scope.errorForm = data;
+            });
+        }
     };
 
     $scope.editItem = function (item, index) {
         $scope.indexEdit = index;
+        item.Stock = { Id: $scope.stock.Id };
         angular.copy(item, $scope.newItem);
         $scope.articuloSelected = { 'title': item.Articulo.Description, 'description': item.Articulo.Parte, 'image': '', 'originalObject': item.Articulo };
         $scope.sisSelected = { title: item.Sistema.Description, description: item.Sistema.Clave, image: '', originalObject: item.Sistema };
         var myOtherModal = $modal({ scope: $scope, template: '/templates/addItemStockOut.htm', show: true });
     };
+
+    $scope.readyForPoliza = function () {
+        var ready = true;
+        for (var i = 0; i < $scope.stock.Items.length; i++) {
+            if (ready && $scope.stock.Items[i].Cuenta == null)
+                ready = false;
+        }
+
+        if (!ready) {
+            $scope.errorForm = 'No todos los articulos tienen una cuenta asignada';
+        } else {
+            $scope.doingPoliza = true;
+            $scope.polizaActions.push('Generando poliza');
+            $scope.polizaActions.push('Enviando informacion a Contpaq');
+
+            
+        }
+    }
 });

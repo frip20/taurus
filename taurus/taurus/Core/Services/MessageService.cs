@@ -30,5 +30,7 @@ namespace taurus.Core.Services
         public const string UPDATE_CASTLE_ITEM = "{0}: Se ha actualizado el item";
         public const string DELETE_CASTLE_ITEM = "{0}: Se ha eliminado el item";
 
+        public const string AFFECT_SALDO_ISSUE = "Se ha producido un error al afectar el saldo para el articulo {0}";
+
     }
 }

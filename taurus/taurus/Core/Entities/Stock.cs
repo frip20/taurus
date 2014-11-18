@@ -14,6 +14,7 @@ namespace taurus.Core.Entities
     {
         private int _proveedorid;
         private Proveedor _proveedor;
+        private int _polizaid;
 
         [Property]
         public StockType Type { get; set; }
@@ -58,8 +59,28 @@ namespace taurus.Core.Entities
         [BelongsTo("responsable")]
         public Empleado Responsable { get; set; }
 
+        [Property("polizaref")]
+        public int PolizaId
+        {
+            get { return _polizaid; }
+            set
+            {
+                _polizaid = value;
+                if (value > 0)
+                {
+                    try
+                    {
+                        //_proveedor = Proveedor.Find(value);
+                    }
+                    catch { }
+                }
+            }
+        }
 
-        [HasMany(typeof(StockItem), Table = "StockItems", ColumnKey = "stockid", Inverse = false, Cascade = ManyRelationCascadeEnum.AllDeleteOrphan, Where="Enable=1"), ScriptIgnore]
+        [Property]
+        public string polizaConcepto { get; set; }
+
+        [HasMany(typeof(StockItem), Table = "StockItems", ColumnKey = "stockid", Inverse = false, Cascade = ManyRelationCascadeEnum.AllDeleteOrphan, Where="Enable=1", Lazy=false), ScriptIgnore]
         public IList<StockItem> Items { get; set; }
 
     }
@@ -67,6 +88,9 @@ namespace taurus.Core.Entities
     [ActiveRecord("stockitems")]
     public class StockItem : CastleProvider<StockItem>
     {
+        private int _cuentaid;
+        private Cuenta _cuenta;
+
         [BelongsTo("stockid"), JsonIgnore]
         public Stock Stock { get; set; }
 
@@ -81,5 +105,36 @@ namespace taurus.Core.Entities
 
         [BelongsTo("sistemaid")]
         public Sistema Sistema { get; set; }
+
+        [Property]
+        public int CuentaId
+        {
+            get { return _cuentaid; }
+            set
+            {
+                _cuentaid = value;
+                if (value > 0)
+                {
+                    try
+                    {
+                        _cuenta = Cuenta.Find(value);
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        public Cuenta Cuenta
+        {
+            get { return _cuenta; }
+            set
+            {
+                _cuenta = value;
+                if (value != null)
+                {
+                    _cuentaid = value.Id;
+                }
+            }
+        }
     }
 }

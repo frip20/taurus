@@ -14,6 +14,68 @@ namespace taurus.Core.Factories
 {
     public class StockFactory : IStock
     {
+        public void afectarSaldo(StockItem item, StockType type) {
+            try
+            {
+                Saldo saldo = Saldo.FindFirst(DetachedCriteria.For<Saldo>().CreateAlias("Articulo", "art").Add(Restrictions.Eq("art.Id", item.Articulo.Id)));
+
+                if (saldo == null || saldo.Id <= 0)
+                {
+                    saldo = new Saldo()
+                    {
+                        Articulo = item.Articulo,
+                        Enable = true,
+                        Entradas = 0,
+                        Salidas = 0,
+                        Unitario = 0
+                    };
+                }
+
+                if (item.Enable)
+                {
+                    if (item.Id > 0)
+                    {
+                        if (saldo.Unitario > 0)
+                            removeSaldo(item, type, saldo);
+                    }
+                    addSaldo(item, type, saldo);
+                }
+                else
+                {
+                    removeSaldo(item, type, saldo);
+                }
+
+                saldo.SaveAndFlush();
+            }
+            catch (Exception ex)
+            {
+                throw new CastleActivityException(string.Format(MessageService.AFFECT_SALDO_ISSUE, item.Articulo.Description), ex);
+            }
+            
+        }
+
+        private static void removeSaldo(StockItem item, StockType type, Saldo saldo)
+        {
+            if (type == StockType.ENTRADA){
+                float _total = ((saldo.Entradas * saldo.Unitario) - (item.Unitario * item.Cantidad));
+                saldo.Entradas -= item.Cantidad;
+                saldo.Unitario = (saldo.Entradas > 0) ? (float)(_total / saldo.Entradas) : 0;
+            }else{
+                saldo.Salidas -= item.Cantidad;
+            }
+        }
+
+        private static void addSaldo(StockItem item, StockType type, Saldo saldo)
+        {
+            if (type == StockType.ENTRADA){
+                float _total = ((saldo.Entradas * saldo.Unitario) + (item.Unitario * item.Cantidad));
+                saldo.Entradas += item.Cantidad;
+                saldo.Unitario = (_total / saldo.Entradas);
+            }else{
+                saldo.Salidas += item.Cantidad;
+            }
+        }
+
         public void addStock(Stock stock)
         {
             if (stock != null) {
@@ -26,6 +88,7 @@ namespace taurus.Core.Factories
                         item.Enable = true;
                         item.Stock = stock;
                         item.SaveAndFlush();
+                        this.afectarSaldo(item, stock.Type);
                     }
                 }
             }
@@ -52,6 +115,7 @@ namespace taurus.Core.Factories
                             item.Stock = stock;
                             item.SaveAndFlush();
                         }
+                        afectarSaldo(item, stock.Type);
                     }
                 }
             }
@@ -87,7 +151,6 @@ namespace taurus.Core.Factories
             return Stock.Find(id);
         }
 
-
         public void deleteStock(Stock stock)
         {
             try
@@ -97,6 +160,7 @@ namespace taurus.Core.Factories
                 {
                     item.Enable = false;
                     item.SaveAndFlush();
+                    afectarSaldo(item, stock.Type);
                 }
                 stock.Enable=false;
                 stock.SaveAndFlush();
@@ -106,7 +170,6 @@ namespace taurus.Core.Factories
             }
 
         }
-
 
         public void saveUso(Uso uso)
         {

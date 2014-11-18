@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using taurus.Core.Interfaces;
 using Castle.ActiveRecord;
+using System.Web.Script.Serialization;
 
 namespace taurus.Core.Entities
 {
@@ -21,7 +22,6 @@ namespace taurus.Core.Entities
 
         [Property]
         public DateTime lastAccessDate { get; set; }
-            
-        
+
     }
 }

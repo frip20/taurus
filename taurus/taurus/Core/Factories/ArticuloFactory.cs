@@ -54,5 +54,19 @@ namespace taurus.Core.Factories
             }
         }
 
+
+        public System.Collections.IEnumerable filterBy(object criterias)
+        {
+            if (criterias == null)
+                return getAllArticulos();
+
+            Articulo art = (Articulo)criterias;
+            DetachedCriteria dc = DetachedCriteria.For<Articulo>().Add(Restrictions.Eq("Enable", true));
+            if (art.Description != null && art.Description.Trim() != "")
+                dc.Add(Restrictions.Like("Description", "%"+art.Description+"%"));
+            if (art.Parte != null && art.Parte.Trim() != "")
+                dc.Add(Restrictions.Like("Parte", "%" + art.Parte + "%"));
+            return Articulo.FindAll(dc);
+        }
     }
 }

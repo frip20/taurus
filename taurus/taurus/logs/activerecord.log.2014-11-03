@@ -1,0 +1,5 @@
+2014-11-03 15:24:22,007 [12] ERROR No existe un usuario con nombre: asd 
+2014-11-03 15:24:55,821 [15] DEBUG SELECT this_.Id as Id11_1_, this_.Enable as Enable11_1_, this_.userName as userName11_1_, this_.Password as Password11_1_, this_.lastAccessDate as lastAcce5_11_1_, this_.roleid as roleid11_1_, rol2_.Id as Id4_0_, rol2_.Enable as Enable4_0_, rol2_.Description as Descript3_4_0_ FROM Users this_ left outer join Roles rol2_ on this_.roleid=rol2_.Id WHERE this_.userName = @p0;@p0 = 'asd' [Type: String (4000)] 
+2014-11-03 15:24:55,821 [15] ERROR No existe un usuario con nombre: asd 
+2014-11-03 15:25:20,295 [11] DEBUG SELECT this_.Id as Id11_1_, this_.Enable as Enable11_1_, this_.userName as userName11_1_, this_.Password as Password11_1_, this_.lastAccessDate as lastAcce5_11_1_, this_.roleid as roleid11_1_, rol2_.Id as Id4_0_, rol2_.Enable as Enable4_0_, rol2_.Description as Descript3_4_0_ FROM Users this_ left outer join Roles rol2_ on this_.roleid=rol2_.Id WHERE this_.userName = @p0;@p0 = 'asd' [Type: String (4000)] 
+2014-11-03 15:25:38,386 [11] ERROR No existe un usuario con nombre: asd 

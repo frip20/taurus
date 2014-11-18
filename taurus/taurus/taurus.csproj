@@ -134,7 +134,9 @@
     <Compile Include="API\ArticuloController.cs" />
     <Compile Include="API\BitacoraController.cs" />
     <Compile Include="API\CategoriasController.cs" />
+    <Compile Include="API\CompacController.cs" />
     <Compile Include="API\ConsumoController.cs" />
+    <Compile Include="API\CuentaController.cs" />
     <Compile Include="API\DepartamentoController.cs" />
     <Compile Include="API\EmpleadosController.cs" />
     <Compile Include="API\LoginController.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="API\RolController.cs" />
     <Compile Include="API\SistemaController.cs" />
     <Compile Include="API\StockController.cs" />
+    <Compile Include="API\StockItemController.cs" />
     <Compile Include="API\StockMovController.cs" />
     <Compile Include="API\UnidadesController.cs" />
     <Compile Include="API\UsersController.cs" />
@@ -157,8 +160,11 @@
     <Compile Include="Core\API\CastleEntityRequest.cs" />
     <Compile Include="Core\API\ArticuloRequest.cs" />
     <Compile Include="Core\API\CategoriaRequest.cs" />
+    <Compile Include="Core\API\CompacRequest.cs" />
+    <Compile Include="Core\API\EmpleadoRequest.cs" />
     <Compile Include="Core\API\SistemaRequest.cs" />
     <Compile Include="Core\API\MaquinaRequest.cs" />
+    <Compile Include="Core\API\StockItemRequest.cs" />
     <Compile Include="Core\API\StockRequest.cs" />
     <Compile Include="Core\API\UserRequest.cs" />
     <Compile Include="Core\Constants\APIActions.cs" />
@@ -174,6 +180,7 @@
     <Compile Include="Core\Entities\CastleStatusProvider.cs" />
     <Compile Include="Core\Entities\Configuration.cs" />
     <Compile Include="Core\Entities\Consumo.cs" />
+    <Compile Include="Core\Entities\Cuenta.cs" />
     <Compile Include="Core\Entities\Departamento.cs" />
     <Compile Include="Core\Entities\Articulo.cs" />
     <Compile Include="Core\Entities\CastleCompaqProvider.cs" />
@@ -184,6 +191,7 @@
     <Compile Include="Core\Entities\Empleado.cs" />
     <Compile Include="Core\Entities\Maquina.cs" />
     <Compile Include="Core\Entities\Requisicion.cs" />
+    <Compile Include="Core\Entities\Saldo.cs" />
     <Compile Include="Core\Entities\Stock.cs" />
     <Compile Include="Core\Entities\Proveedor.cs" />
     <Compile Include="Core\Entities\Rol.cs" />
@@ -199,8 +207,10 @@
     <Compile Include="Core\Factories\ArticuloFactory.cs" />
     <Compile Include="Core\Factories\BitacoraFactory.cs" />
     <Compile Include="Core\Factories\CastleProviderFactory.cs" />
+    <Compile Include="Core\Factories\CompacFactory.cs" />
     <Compile Include="Core\Factories\ConsumoFactory.cs" />
     <Compile Include="Core\Factories\CategoriaFactory.cs" />
+    <Compile Include="Core\Factories\CuentaFactory.cs" />
     <Compile Include="Core\Factories\UnidadFactory.cs" />
     <Compile Include="Core\Factories\DepartmentFactory.cs" />
     <Compile Include="Core\Factories\EmpleadoFactory.cs" />
@@ -217,10 +227,13 @@
     <Compile Include="Core\Interfaces\IArticulo.cs" />
     <Compile Include="Core\Interfaces\IBitacora.cs" />
     <Compile Include="Core\Interfaces\ICastleProvider.cs" />
+    <Compile Include="Core\Interfaces\ICompac.cs" />
     <Compile Include="Core\Interfaces\IConsumo.cs" />
+    <Compile Include="Core\Interfaces\ICuenta.cs" />
     <Compile Include="Core\Interfaces\IDateCriteria.cs" />
     <Compile Include="Core\Interfaces\IDepartamento.cs" />
     <Compile Include="Core\Interfaces\IEmpleado.cs" />
+    <Compile Include="Core\Interfaces\IFilterable.cs" />
     <Compile Include="Core\Interfaces\IMaquina.cs" />
     <Compile Include="Core\Interfaces\IProveedor.cs" />
     <Compile Include="Core\Interfaces\IRolFactory.cs" />
@@ -249,6 +262,7 @@
     <Content Include="Angular\areas.js" />
     <Content Include="Angular\bitacora.js" />
     <Content Include="Angular\categorias.js" />
+    <Content Include="Angular\compac.js" />
     <Content Include="Angular\sistemas.js" />
     <Content Include="Angular\maquinarias.js" />
     <Content Include="Angular\empleados.js" />
@@ -394,6 +408,17 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SDKCONTPAQNGLib">
+      <Guid>{4A6A81F3-B2B3-448C-A557-A005091BE801}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

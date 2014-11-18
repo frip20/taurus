@@ -178,6 +178,15 @@ textarea
 .paginator .first{ background-image: url(/images/first.png); }
 .paginator .last{ background-image: url(/images/last.png); }
 
+.tblwraper
+{
+    border:1px solid #ccc;
+    height: 850px;
+    width:95%;
+    padding-right:10px;
+    overflow:scroll;
+}
+
 .modal-backdrop.am-fade {
   opacity: .5;
   transition: opacity .15s linear;

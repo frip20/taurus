@@ -23,6 +23,11 @@ app.factory('loginService', function ($http, $location, $window, $q, sessionServ
                 var user = apiData.data.jData;
                 scope.user = user;
                 sessionService.set('uid', user.Id);
+                var permissions = '';
+                for (var i = 0; i < user.userRol.Permissions.length; i++) {
+                    permissions += user.userRol.Permissions[i].Value + '|';
+                }
+                sessionService.set('permissions', permissions);
                 $window.location = '/home';
             }
             else {
@@ -39,6 +44,7 @@ app.factory('loginService', function ($http, $location, $window, $q, sessionServ
         $http.get('api/logout').success(function (apiData) {
             if (apiData.Status == 'OK') {
                 sessionService.destroy('uid');
+                sessionService.destroy('permissions');
                 deferred.resolve(apiData.jData);
                 $window.location = '/login';
             } else {
@@ -63,6 +69,18 @@ app.factory('loginService', function ($http, $location, $window, $q, sessionServ
             deferred.reject(0);
         });
         return deferred.promise;
+    };
+
+    _factory.hasPermission = function (permission) {
+        var rights = sessionStorage.getItem('permissions').split('|');
+        if (rights != null) {
+            for (var i = 0; i < rights.length; i++) {
+                if (rights[i] == permission) {
+                    return true;
+                }
+            }
+        }
+        return false;
     };
 
     return _factory;

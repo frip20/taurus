@@ -54,3 +54,5 @@ C:\Users\romoreno\Documents\DR\taurus\taurus\taurus\bin\System.Net.Http.WebReque
 C:\Users\romoreno\Documents\DR\taurus\taurus\taurus\bin\System.Web.Http.xml
 C:\Users\romoreno\Documents\DR\taurus\taurus\taurus\bin\System.Web.Http.WebHost.xml
 C:\Users\romoreno\Documents\DR\taurus\taurus\taurus\bin\log4net.dll
+C:\Users\romoreno\Documents\DR\taurus\taurus\taurus\obj\Debug\Interop.SDKCONTPAQNGLib.dll
+C:\Users\romoreno\Documents\DR\taurus\taurus\taurus\obj\Debug\taurus.csproj.ResolveComReference.cache

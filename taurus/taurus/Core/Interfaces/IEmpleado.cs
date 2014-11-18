@@ -6,7 +6,7 @@ using taurus.Core.Entities;
 
 namespace taurus.Core.Interfaces
 {
-    public interface IEmpleado : ISearchable<Empleado>
+    public interface IEmpleado : ISearchable<Empleado>, IFilterable
     {
         IEnumerable<Empleado> searchByDescription(string search);
     }

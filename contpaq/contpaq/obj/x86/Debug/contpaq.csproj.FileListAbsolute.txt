@@ -1,0 +1,9 @@
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\bin\Debug\contpaq.exe
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\bin\Debug\contpaq.pdb
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\obj\x86\Debug\Interop.SDKCONTPAQNGLib.dll
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\obj\x86\Debug\contpaq.csproj.ResolveComReference.cache
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\obj\x86\Debug\contpaq.Form1.resources
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\obj\x86\Debug\contpaq.Properties.Resources.resources
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\obj\x86\Debug\contpaq.csproj.GenerateResource.Cache
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\obj\x86\Debug\contpaq.exe
+C:\Users\romoreno\Documents\DR\taurus\contpaq\contpaq\obj\x86\Debug\contpaq.pdb

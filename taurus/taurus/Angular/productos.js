@@ -36,6 +36,7 @@ app.factory('productosService', function ($http, $q) {
 
 
 app.controller('productosController', function ($scope, productosService) {
+    $scope.searchBy = { Action: 7, Articulo: {} };
     $scope.productos = [];
     $scope.producto = { Id: 0 };
     $scope.editing = -1;
@@ -80,5 +81,16 @@ app.controller('productosController', function ($scope, productosService) {
                 $scope.errorForm = data;
             });
     };
+
+    $scope.filterBy = function () {
+        $scope.searchBy = { Action: 7, Articulo: { Description: $('#searchDesc').val(), Parte: $('#searchParte').val()} };
+    };
+
+    $scope.clearFilter = function () {
+        if ($('#searchDesc').val().trim() != '' || $('#searchParte').val().trim()) {
+            $('#searchForm input[type=text]').val('');
+            $scope.searchBy = { Action: 7, Articulo: {} };
+        }
+    }
 
 });

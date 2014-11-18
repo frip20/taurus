@@ -6,7 +6,7 @@ using taurus.Core.Entities;
 
 namespace taurus.Core.Interfaces
 {
-    public interface IArticulo : ISearchable<Articulo>
+    public interface IArticulo : ISearchable<Articulo>, IFilterable
     {
         IEnumerable<Articulo> searchByNameOrPart(string search);
 
