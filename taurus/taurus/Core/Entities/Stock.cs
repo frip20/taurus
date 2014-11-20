@@ -83,6 +83,17 @@ namespace taurus.Core.Entities
         [HasMany(typeof(StockItem), Table = "StockItems", ColumnKey = "stockid", Inverse = false, Cascade = ManyRelationCascadeEnum.AllDeleteOrphan, Where="Enable=1", Lazy=false), ScriptIgnore]
         public IList<StockItem> Items { get; set; }
 
+        public decimal importeTotal() {
+            decimal total = 0;
+            if (Items == null) return total;
+
+            foreach (StockItem item in Items)
+            {
+                total += item.Importe;
+            }
+            return total;
+        }
+
     }
 
     [ActiveRecord("stockitems")]
@@ -98,10 +109,10 @@ namespace taurus.Core.Entities
         public Articulo Articulo { get; set; }
 
         [Property]
-        public float Cantidad { get; set; }
+        public decimal Cantidad { get; set; }
 
         [Property]
-        public float Unitario { get; set; }
+        public decimal Unitario { get; set; }
 
         [BelongsTo("sistemaid")]
         public Sistema Sistema { get; set; }
@@ -135,6 +146,11 @@ namespace taurus.Core.Entities
                     _cuentaid = value.Id;
                 }
             }
+        }
+
+        public decimal Importe
+        {
+            get { return (Cantidad * Unitario); }
         }
     }
 }

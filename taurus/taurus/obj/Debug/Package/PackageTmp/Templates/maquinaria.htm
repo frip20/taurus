@@ -50,36 +50,61 @@
     </div>
     
     <div ng-hide="editing>=0">
-        <input type=button class="btn btn-default" value="Agregar Maquinaria" ng-click="newItem()" />
-        <table class="tbl-form">
-            <thead>
+        <div id='searchForm'>
+            <table class="table-form">
                 <tr>
-                    <td>Id</td>
-                    <td>Descripcion</td>
-                    <td>Num Economico</td>
-                    <td>Area</td>
-                    <td>Operador</td>
-                    <td>Placa</td>
+                    <td>Descripcion:</td>
+                    <td><input type=text id="searchDesc" class="form-control" placeholder="Buscar por descripcion" /> </td>
                     <td></td>
+                    <td>Placa:</td>
+                    <td><input type=text id="searchPlaca" class="form-control" placeholder="Numero de placa" /> </td>
+                    <td></td>
+                    <td> <input type=button name=btnSearch class="btn btn-primary" value=Buscar ng-click="filterBy()" /> <input type=button name=btnSearch class="btn btn-default" value=Cancelar ng-click="clearFilter()" /></td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr class="animate" ng-repeat="item in maquinas | orderBy:'Description'" >
-                    <td>{{ item.Id }}</td>
-                    <td>{{ item.Description }}</td> 
-                    <td>{{ item.Econo }}</td> 
-                    <td>{{ item.Area.Description }}</td> 
-                    <td>{{ item.Operador.Description }}</td> 
-                    <td>{{ item.Placa }}</td> 
-                    <td>
-                        <button type="submit" class="tbl-button edit" ng-click="editItem(item, $index)">Edit</button>
-                        <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
-                    </td>
+                <tr>
+                    <td>Operador:</td>
+                    <td><input type=text id="searchOp" class="form-control" placeholder="Nombre del Operador" /></td>
+                    <td> </td><td> </td>
+                    
                 </tr>
-            </tbody>
-            <tfoot>
-                <tr><td colspan="6"><angu-pages url="api/maquinaria" listitems="maquinas"></angu-pages></td></tr>
-            </tfoot>
-        </table>
+            </table>
+        </div>
+        <div class="div-separate"></div>
+
+        <input type=button class="btn btn-success" value="Agregar Maquinaria" ng-click="newItem()" />
+        <div class="div-separate"></div>
+        <div class="warning error">{{ errorForm }}</div>
+        <div class="tbl-wraper">
+            <table class="tbl-form">
+                <thead>
+                    <tr>
+                        <td>Id</td>
+                        <td>Descripcion</td>
+                        <td>Num Economico</td>
+                        <td>Area</td>
+                        <td>Operador</td>
+                        <td>Placa</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="animate" ng-repeat="item in maquinas | orderBy:'Description'" >
+                        <td>{{ item.Id }}</td>
+                        <td>{{ item.Description }}</td> 
+                        <td>{{ item.Econo }}</td> 
+                        <td>{{ item.Area.Description }}</td> 
+                        <td>{{ item.Operador.Description }}</td> 
+                        <td>{{ item.Placa }}</td> 
+                        <td>
+                            <button type="submit" class="tbl-button edit" ng-click="editItem(item, $index)">Edit</button>
+                            <button type="submit" class="tbl-button delete" ng-really-message="Esta seguro de eliminar el registro?" ng-really-click="deleteItem(item, $index)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr><td colspan="7"><angu-pages url="api/maquinaria" listitems="maquinas" post=true filteroption="searchBy"></angu-pages></td></tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>

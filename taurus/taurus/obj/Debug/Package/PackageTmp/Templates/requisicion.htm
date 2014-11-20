@@ -1,0 +1,41 @@
+﻿<h1>Requisiciones</h1>
+<div>
+    <div>
+        <table class="table-form">
+        <tr>
+            <td>Dep Solicitante</td>
+            <td><select ng-model="requisicion.Departamento.Id" class="form-control" placeholder="Departamento" ng-options="item.Id as item.Description for item in departments"></select></td>
+            <td></td>
+            <td>Fecha</td>
+            <td><input type="text" class="form-control" ng-model="requisicion.createDate" name="date" placeholder="Fecha" bs-datepicker></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Para usarse en</td>
+            <td>
+                <angucomplete id="uso" placeholder="Para usarse en" pause="300" selectedobject="usoSelected" titlefield="Description" datafield="jData" 
+                descriptionfield="" minlength="3" url="/api/usos?search=" inputclass="form-control form-control-small" matchclass="highlight" selectedscope="requisicion.Uso"></angucomplete>
+            </td>
+            <td></td>
+            <td>Tiempo de entrega</td>
+            <td><select ng-model="requisicion.tiempoEntrega" class="form-control" placeholder="Tiempos" ng-options="item for item in times"></select></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Responsable</td>
+            <td colspan=3>
+                <angucomplete id="responsable" placeholder="Responsable" pause="300" selectedobject="responsableSelected" titlefield="Description" datafield="jData" 
+                minlength="3" url="/api/empleados?search=" inputclass="form-control form-control-small" matchclass="highlight" selectedscope="requisicion.Responsable"></angucomplete>
+            </td>
+            <td></td>
+        </tr>
+        </table>
+        <div class="warning message">* Campos requeridos</div>
+        <div class="warning error">{{ errorForm }}</div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" ng-hide="area.Id > 0" ng-click="addItem(1)">Agregar</button>
+        <button type="button" class="btn btn-primary" ng-show="area.Id > 0" ng-click="addItem(3)">Actualizar</button>
+        <button type="button" class="btn btn-default" ng-click="Cancelar()">Cancelar</button>
+    </div>
+</div>

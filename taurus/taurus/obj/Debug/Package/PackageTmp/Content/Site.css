@@ -130,7 +130,7 @@ textarea
 
 /* header
     -----------------------------*/
-.logo{background: url("../Images/header_logo.png") no-repeat;width:100%;height:100px;}
+.logo{background: url("../Images/_header_logo.png") no-repeat;width:100%;height:100px;}
 .logosection{background: url("../Images/header_background.png") repeat-x;    height:100px;}
 
 .formContainer{display:table; width:50%; padding-top:5px}
@@ -177,6 +177,15 @@ textarea
 .paginator .previous{ background-image: url(/images/previous.png); }
 .paginator .first{ background-image: url(/images/first.png); }
 .paginator .last{ background-image: url(/images/last.png); }
+
+.tblwraper
+{
+    border:1px solid #ccc;
+    height: 850px;
+    width:95%;
+    padding-right:10px;
+    overflow:scroll;
+}
 
 .modal-backdrop.am-fade {
   opacity: .5;

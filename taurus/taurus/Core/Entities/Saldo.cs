@@ -13,12 +13,12 @@ namespace taurus.Core.Entities
         public Articulo Articulo { get; set; }
 
         [Property]
-        public float Entradas { get; set; }
+        public decimal Entradas { get; set; }
 
         [Property]
-        public float Salidas { get; set; }
+        public decimal Salidas { get; set; }
 
         [Property]
-        public float Unitario { get; set; }
+        public decimal Unitario { get; set; }
     }
 }

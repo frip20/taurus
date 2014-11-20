@@ -42,7 +42,7 @@ namespace contpaq
                 if (session.conexionActiva < 1)
                     session.iniciaConexion();
                 if (session.conexionActiva == 1 && session.ingresoUsuario == 0)
-                    session.firmaUsuario();
+                    session.firmaUsuarioParams("SUPERVISOR", "");
                 if (session.conexionActiva == 1 && session.ingresoUsuario == 1)
                     session.abreEmpresa(textBox1.Text);
 
@@ -59,7 +59,7 @@ namespace contpaq
                 poliza.iniciarInfo();
                 poliza.Fecha = DateTime.Now;
                 poliza.Tipo = tipoPoliza.Tipo;
-                poliza.Numero = 98767;
+                poliza.Numero = 98769;
                 poliza.Clase = ECLASEPOLIZA.CLASE_AFECTAR;
                 poliza.Impresa = 0;
                 poliza.Concepto = "E0001 FolioF";
@@ -137,7 +137,7 @@ namespace contpaq
                 if (session.conexionActiva < 1)
                     session.iniciaConexion();
                 if (session.conexionActiva == 1 && session.ingresoUsuario == 0)
-                    session.firmaUsuario();
+                    session.firmaUsuarioParams("SUPERVISOR", "");
                 if (session.conexionActiva == 1 && session.ingresoUsuario == 1)
                     session.abreEmpresa(textBox1.Text);
 
@@ -154,7 +154,7 @@ namespace contpaq
                 poliza.iniciarInfo();
                 poliza.Fecha = DateTime.Now;
                 poliza.Tipo = tipoPoliza.Tipo;
-                poliza.Numero = 98766;
+                poliza.Numero = 98768;
                 poliza.Clase = ECLASEPOLIZA.CLASE_AFECTAR;
                 poliza.Impresa = 0;
                 poliza.Concepto = "S001 Prueba de poliza";

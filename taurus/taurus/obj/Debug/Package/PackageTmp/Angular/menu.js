@@ -34,7 +34,8 @@ app.directive('menuItem', function () {
         controller: function ($scope, $element) {
             if ($scope.mitem.routePath === 'GROUP') {
                 $element.html('<li class="menu header"><span>' + $scope.mitem.Description + '</span></li>');
-            } else {
+            } else if ($scope.mitem.routePath === 'ACTION') { }
+            else {
                 $element.html('<li class="menu item"><a href="#' + $scope.mitem.routePath + '" id="menu_' + $scope.mitem.Id + '"><span class="menu icon ' + $scope.mitem.iconPath + '">e</span><span>' + $scope.mitem.Description + '</span></a></li>');
             }
         }

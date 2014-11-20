@@ -20,5 +20,8 @@ namespace taurus.Core.Entities
 
         [Property]
         public string RFC { get; set; }
+
+        [Property]
+        public string CodigoCuenta { get; set; }
     }
 }

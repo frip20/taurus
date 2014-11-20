@@ -8,6 +8,8 @@ namespace taurus.Core.Interfaces
 {
     public interface ICompac
     {
-        void addPoliza(Stock stock);
+        void polizaEntrada(Stock stock);
+
+        void polizaSalida(Stock stock);
     }
 }

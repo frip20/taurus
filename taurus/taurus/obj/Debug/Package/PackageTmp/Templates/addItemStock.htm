@@ -30,6 +30,14 @@
                 <td>Precio Uni:</td>
                 <td><input name="price" class="form-control" type="text" placeholder="Precio Unitario" ng-model="newItem.Unitario" value="1.00" currency required /></td><td>*</td>
             </tr>
+
+            <tr ng-show="canSendPoliza">
+                <td>Cuenta:</td>
+                <td>
+                    <angucomplete id="cuentas" placeholder="Buscar cuentas" pause="300" selectedobject="cuentaSelected" titlefield="Description,Codigo" datafield="jData" 
+                    descriptionfield="Codigo" minlength="3" url="/api/cuenta?search=" inputclass="form-control form-control-small" matchclass="highlight" selectedscope="newItem.Cuenta"></angucomplete> 
+                </td>
+            </tr>
            </table>
 
            <div class="warning message">* Campos requeridos</div>

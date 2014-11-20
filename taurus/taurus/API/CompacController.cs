@@ -28,7 +28,6 @@ namespace taurus.API
         {
             try
             {
-                _compac.addPoliza(new Stock());
                 return new TaurusResponseMessage("");
             }
             catch (Exception ex)
@@ -41,7 +40,14 @@ namespace taurus.API
         {
             try
             {
-                
+                if (request.Stock.Type == StockType.ENTRADA)
+                {
+                    _compac.polizaEntrada(request.Stock);
+                }
+                else {
+                    _compac.polizaSalida(request.Stock);
+                }
+
                 return new TaurusResponseMessage(request.Stock);
             }
             catch (Exception ex)

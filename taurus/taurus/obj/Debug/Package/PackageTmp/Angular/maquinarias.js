@@ -36,6 +36,7 @@ app.factory('maquinariaService', function ($http, $q) {
 
 
 app.controller('maquinariaController', function ($scope, areasService, maquinariaService) {
+    $scope.searchBy = { Action: 7, Maquina: {} };
     $scope.areas = [];
     $scope.maquinas = [];
     $scope.maquina = { Id: 0 };
@@ -100,5 +101,16 @@ app.controller('maquinariaController', function ($scope, areasService, maquinari
 
         return true;
     };
+
+    $scope.filterBy = function () {
+        $scope.searchBy = { Action: 7, Maquina: { Description: $('#searchDesc').val(), Placa: $('#searchPlaca').val(), Operador: { Description: $('#searchOp').val()}} };
+    };
+
+    $scope.clearFilter = function () {
+        if ($('#searchDesc').val().trim() != '' || $('#searchPlaca').val().trim() || $('#searchOp').val().trim()) {
+            $('#searchForm input[type=text]').val('');
+            $scope.searchBy = { Action: 7, Articulo: {} };
+        }
+    }
 
 });

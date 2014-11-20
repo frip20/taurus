@@ -310,7 +310,7 @@ app.controller('stockMovController', function ($scope, $modal, $http, $q, $locat
 
 
 
-app.controller('stockOutController', function ($scope, $modal, $http, $q, $routeParams, $location, $window, stockService, departmentService, loginService) {
+app.controller('stockOutController', function ($scope, $modal, $http, $q, $routeParams, $location, $window, stockService, departmentService, loginService, compacService) {
     $scope.stock = { Id: 0, Items: [], CreateDate: new Date(), Uso: null, Type: 2 };
     $scope.departments = [];
     $scope.newItem = {};
@@ -366,7 +366,7 @@ app.controller('stockOutController', function ($scope, $modal, $http, $q, $route
                 $scope.stock.Items.push($scope.newItem);
                 $scope.clearForm();
             }
-            
+
 
             //close popup
             this.$hide();
@@ -484,7 +484,12 @@ app.controller('stockOutController', function ($scope, $modal, $http, $q, $route
             $scope.polizaActions.push('Generando poliza');
             $scope.polizaActions.push('Enviando informacion a Contpaq');
 
-            
+            compacService.addPoliza($scope.stock)
+                .then(function (data) {
+                    $scope.errorForm = data.PolizaId;
+                }, function (data) {
+                    $scope.errorForm = data;
+                });
         }
     }
 });

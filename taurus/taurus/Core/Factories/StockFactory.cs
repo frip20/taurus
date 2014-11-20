@@ -57,9 +57,9 @@ namespace taurus.Core.Factories
         private static void removeSaldo(StockItem item, StockType type, Saldo saldo)
         {
             if (type == StockType.ENTRADA){
-                float _total = ((saldo.Entradas * saldo.Unitario) - (item.Unitario * item.Cantidad));
+                decimal _total = ((saldo.Entradas * saldo.Unitario) - (item.Unitario * item.Cantidad));
                 saldo.Entradas -= item.Cantidad;
-                saldo.Unitario = (saldo.Entradas > 0) ? (float)(_total / saldo.Entradas) : 0;
+                saldo.Unitario = (saldo.Entradas > 0) ? (decimal)(_total / saldo.Entradas) : 0;
             }else{
                 saldo.Salidas -= item.Cantidad;
             }
@@ -68,7 +68,7 @@ namespace taurus.Core.Factories
         private static void addSaldo(StockItem item, StockType type, Saldo saldo)
         {
             if (type == StockType.ENTRADA){
-                float _total = ((saldo.Entradas * saldo.Unitario) + (item.Unitario * item.Cantidad));
+                decimal _total = ((saldo.Entradas * saldo.Unitario) + (item.Unitario * item.Cantidad));
                 saldo.Entradas += item.Cantidad;
                 saldo.Unitario = (_total / saldo.Entradas);
             }else{

@@ -21,7 +21,10 @@
     </div>
     
     <div ng-hide="editing>=0">
-        <input type=button class="btn btn-default" value="Agregar categoria" ng-click="newItem()" />
+        <input type=button class="btn btn-success" value="Agregar categoria" ng-click="newItem()" />
+        <div class="div-separate"></div>
+        <div class="warning error">{{ errorForm }}</div>
+        <div class="tbl-wraper">
         <table class="tbl-form">
             <thead>
                 <tr>
@@ -44,5 +47,6 @@
                 <tr><td colspan="4">Total: {{ categorias.length }}</td></tr>
             </tfoot>
         </table>
+        </div>
     </div>
 </div>
